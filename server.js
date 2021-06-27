@@ -22,10 +22,10 @@ io.on("connect", (socket) => {
       console.log('find playlist with url: ' + url)
 
       pptFct.getMusics(url).then((res) => {
-          //socket.emit("getPlaylist", res)
+          socket.emit("getPlaylist", res)
           let rdm = getRandomMusic(res.musics)
           pptFct.getYoutubeVideos(rdm).then((song) => {
-            socket.emit("getSong", song)
+            // socket.emit("getSong", song)
 
             for(let url of song) {
               if(url != null) {
@@ -46,4 +46,5 @@ function getRndInteger(min, max) {
   return Math.floor(Math.random() * (max - min) ) + min;
 }
 
+console.log("Listening on port: 1646")
 serverNode.listen(1646)

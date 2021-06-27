@@ -36,3 +36,11 @@
         transform: translate(-50%, -50%) rotate(360deg);
       }
 }
+
+#video-placeholder {
+    display: none;
+}
+
+input {
+    width: 50%;
+}

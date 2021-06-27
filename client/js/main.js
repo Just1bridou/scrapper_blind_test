@@ -1,5 +1,7 @@
 let socket = io()
 
+var player;
+
 document.addEventListener('DOMContentLoaded', () => {
     let button = document.querySelector('.findPlaylist')
     let input = document.querySelector('input')
@@ -11,8 +13,35 @@ document.addEventListener('DOMContentLoaded', () => {
     socket.on('getSong', song => {
         removeLoader()
         console.log(song)
+        let id = song.url.split("=")
+        initPlayer(id[1])
+    })
+
+    socket.on('getPlaylist', res => {
+        let content = document.querySelector('.playlist')
+        content.innerHTML = ""
+        _('h1', content, res.name)    
     })
 })
+
+function initPlayer(id) {
+
+    player = new YT.Player('video-placeholder', {
+        width: 0,
+        height: 0,
+        videoId: id,
+        playerVars: {
+            color: 'white',
+        },
+        events: {
+            onReady: initialize
+        }
+    });
+}
+
+function initialize(){
+    player.playVideo();
+}
 
 function createLoader() {
     let content = _('div', document.body, null, null, "loaderModale")
@@ -33,11 +62,11 @@ function createPlaylist(list) {
     content.innerHTML = ""
 
     _('h1', content, list.name)
-    let listUL = _('ul', content)
 
-    for(let song of list.musics) {
-        _('li', listUL, song.name)
-    }
+    // let listUL = _('ul', content)
+    // for(let song of list.musics) {
+    //     _('li', listUL, song.name)
+    // }
 }
 
 function _(tag, parent, text=null,  id=null, classs=null) {
