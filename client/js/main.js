@@ -3,6 +3,10 @@ let socket = io()
 var player;
 
 document.addEventListener('DOMContentLoaded', () => {
+
+    const Modale = new ModaleManager()
+    const Playlist = new PlaylistManager(Modale)
+
     let button = document.querySelector('.findPlaylist')
     let input = document.querySelector('input')
     button.addEventListener('click', () => {
@@ -17,10 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
         initPlayer(id[1])
     })
 
-    socket.on('getPlaylist', res => {
+   /* socket.on('getPlaylist', res => {
         let content = document.querySelector('.playlist')
         content.innerHTML = ""
         _('h1', content, res.name)    
+    })*/
+
+    socket.on('getPlaylist', res => {
+        removeLoader()
+        Playlist.playlistResults(res)
     })
 })
 
@@ -67,16 +76,4 @@ function createPlaylist(list) {
     // for(let song of list.musics) {
     //     _('li', listUL, song.name)
     // }
-}
-
-function _(tag, parent, text=null,  id=null, classs=null) {
-	let element = document.createElement(tag)
-	if (text)
-		element.appendChild(document.createTextNode(text))
-	parent.appendChild(element)
-	if (id)
-		element.id = id
-	if (classs)
-		element.classList.add(classs)
-	return element
 }

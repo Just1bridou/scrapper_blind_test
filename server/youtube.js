@@ -1,13 +1,6 @@
-const cheerio = require('cheerio');
-
 module.exports = {
     scrape_youtube: scrape_youtube,
 };
-
-const all_videos = new Set();
-
-const sleep = seconds =>
-    new Promise(resolve => setTimeout(resolve, (seconds || 1) * 1000));
 
 async function scrape_youtube(browser, keyword) {
 
@@ -21,15 +14,16 @@ async function scrape_youtube(browser, keyword) {
         await buttonCookie.click({ clickCount: 1 });
     } catch {
         console.log("youtube cookies ok")
+        await page.screenshot({path: "error.png"})
     }
 
-    await page.waitForSelector('input[id="search"]', { timeout: 5000 });
+    await page.waitForSelector('input[id="search"]');
 
     // before we do anything, parse the results of the front page of youtube
    /* await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 10000 });
     let html = await page.content();
     results['__frontpage__'] = parse(html);*/
-    await page.waitForSelector('ytd-rich-grid-renderer', { timeout: 10000 });
+    await page.waitForSelector('ytd-rich-grid-renderer');
 
     const input = await page.$('input[id="search"]');
     // overwrites last text in input
@@ -42,14 +36,15 @@ async function scrape_youtube(browser, keyword) {
     await search.click({ clickCount: 1 });
     // await page.waitForFunction(`document.title.indexOf('${keyword}') !== -1`, { timeout: 5000 });
     // await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 5000 });
-    await page.waitForSelector('.ytd-item-section-renderer', { timeout: 10000 });
+    await page.waitForSelector('.ytd-item-section-renderer');
 
     const videos = await page.$$eval("#contents #video-title", el => el.map(i => i.href));
    // const time = await page.$$eval("span#text", el => el.map(i => i.innerHTML));
 
     //console.log(keyword)
    // console.log(time)
-    console.log(videos)
+   // console.log(videos)
+   browser.close()
 
   //  console.log("bef return")
     return videos;
