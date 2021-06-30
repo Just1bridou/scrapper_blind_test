@@ -44,3 +44,7 @@
 input {
     width: 50%;
 }
+
+.none {
+    display: none;
+}

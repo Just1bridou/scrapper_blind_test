@@ -4,15 +4,18 @@ var player;
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    const Game = new GameManager()
     const Modale = new ModaleManager()
     const Playlist = new PlaylistManager(Modale)
+    const Sections = new SectionsManager(Game)
 
-    let button = document.querySelector('.findPlaylist')
-    let input = document.querySelector('input')
-    button.addEventListener('click', () => {
-        createLoader()
-        socket.emit('findPlaylist', input.value)
-    })
+    Game.start()
+    // let button = document.querySelector('.findPlaylist')
+    // let input = document.querySelector('input')
+    // button.addEventListener('click', () => {
+    //     createLoader()
+    //     socket.emit('findPlaylist', input.value)
+    // })
 
     socket.on('getSong', song => {
         removeLoader()

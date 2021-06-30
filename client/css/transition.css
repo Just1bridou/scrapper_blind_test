@@ -1,0 +1,64 @@
+.hideDiv {
+    top: 0;
+    left: 0;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    left: -100%;
+    z-index: 100;
+    background-color: rgb(43, 6, 73);
+    /* background: linear-gradient(0.25turn, #63F881, #2455DC); */
+    animation: fullWidth 1.5s forwards;
+
+
+    text-align: center;
+    font-size: 200px;   
+   /* position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);*/
+    color: white;
+    text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+    -webkit-text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+    -moz-text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+}
+
+.completeWidth {
+    left: 0%;
+}
+
+@keyframes fullWidth {
+    from {left: -100%;}
+    to {left: 0%;}
+}
+
+@keyframes reverseFullWidth {
+    from {left: 0%;}
+    to {left: -100%;}
+}
+
+.countDiv {
+    font-size: 200px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: white;
+    z-index: 101;
+    text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+    -webkit-text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+    -moz-text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+}
+
+.transitionDiv {
+    font-size: 90px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: white;
+    z-index: 10;
+    text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+    -webkit-text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+    -moz-text-shadow: 10px 9px 4px rgb(0 0 0 / 48%);
+}

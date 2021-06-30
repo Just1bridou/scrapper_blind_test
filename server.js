@@ -29,9 +29,26 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/client/pages/index.html")
 })
 
-const Client = new ClientBasic()
-
 io.on("connect", (socket) => { 
+
+  const Client = new ClientBasic(socket)
+
+  Client.on("createRoom", data => {
+
+    let player = new Player(data.pseudo, true)
+    let room = new Room()
+    room.addPlayer(player, socket)
+
+    let params = {
+      "room": room.code,
+      "uuidPlayer": player.uuid
+    }
+
+    Client.emit("roomCreated", params)
+    Client.emit("saveUUID", player)
+    room.playersEvent("refreshPlayersList", room.playersList)
+    Client.goToSection("login", "waitingRoom")
+  })
 
     socket.on("findPlaylist", (fullUrl) => {
 

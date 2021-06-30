@@ -19,4 +19,10 @@ module.exports = class Room {
         secondPart = ("000" + secondPart.toString(36)).slice(-3);
         return firstPart + secondPart;
     }
+
+    playersEvent(name, data = null) {
+        for(let player of this.playersList) {
+            this.socketsList[player.uuid].emit(name, data)
+        }
+    }
 }
