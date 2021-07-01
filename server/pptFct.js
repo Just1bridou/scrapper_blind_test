@@ -2,6 +2,8 @@ const puppeteer = require('puppeteer');
 const youtube = require('./youtube');
 const axios = require('axios')
 
+var SpotifyWebApi = require('spotify-web-api-node');
+
 const setHeaders = async (page) => {
   const userAgent = 'Mozilla/5.0 (X11; Linux x86_64)' +
     'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/64.0.3282.39 Safari/537.36';
@@ -20,15 +22,21 @@ module.exports = {
 
 async function getMusics(id, cb) {
 
+  var spotifyApi = new SpotifyWebApi({
+    clientId: '9b14eaa2219a48289e044d245b517492',
+    clientSecret: '783195aceb49407d9864f0ca7edd0c14'
+  });
+
   var results = {}
   results.musics = []
 
   axios.get('https://api.spotify.com/v1/playlists/' + id, {
     headers: {
-      "Authorization": "Bearer BQBEwdDr1LIAcZUpRlWe3WYKn0KwkHH0Sux7vwFXGGcFMQjX_rmFrhA-v-G9KfUV1f9PxY8NyrVhDjwX8exV-9xqRRPPebCebmY0dskda11J7lJWzU_HQWAOad-gaHN3-KAv9h1RBlOZrzRjbzP6llpChjn3jVT3ADNoD8ypuengOfPK2SY"
+      "Authorization": "Bearer BQDGaKDSwds-hlHso7lEO_FYUgPdiGh7xHJe-PJQc8p4Gjc6y-MXF2vTDZkr9m-92fU84HSAWhOe0Ze8nSuQMdxrPVJigBTGxiuA873n5fe37fQRPoFmaAbJFd3GYJvadcYQWexgZnPOY6TLQSqtR9bh76nU9YJb3jKU4W-ikl_amvqq3Tg"
     }
   })
   .then(function (response) {
+    console.log("api ok")
     let data = response.data;
 
     results.name = data.name
@@ -50,6 +58,13 @@ async function getMusics(id, cb) {
   }).catch(e => {
     console.log(e)
   })
+
+  /*spotifyApi.getPlaylist(id)
+    .then(function(data) {
+      console.log('Some information about this playlist', data.body);
+    }, function(err) {
+      console.log('Something went wrong!', err);
+  });*/
 
 /*
   const browser = await puppeteer.launch(options);

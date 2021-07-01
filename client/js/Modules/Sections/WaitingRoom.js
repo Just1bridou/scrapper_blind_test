@@ -10,8 +10,10 @@ class SectionWR {
         this.ready_button = this.section.querySelector('#ready_button')
 
         // Playlists
+        this.playlistChose = this.section.querySelector(".wr_playlist_title")
         this.playlistsSearch = this.section.querySelector('.wr_playlist_input')
         this.playlistsResults = this.section.querySelector('.wr_playlist_results')
+
         this.Playlist = new PlaylistManager(game)
     }
 
@@ -93,6 +95,10 @@ class SectionWR {
 
         this.game.on("playlistsKeyWord", data => {
             this.refreshPlaylists(data)
+        })
+
+        this.game.on("playlistChose", name => {
+            this.playlistChose.innerHTML = name
         })
 
         var refreshFCT = function refreshWRPL(playerList, section) {
@@ -187,6 +193,15 @@ class SectionWR {
                 console.log(playlist)
                 let div = _('div', this.playlistsResults, playlist.name)
                 _('span', div, " (" + playlist.songs.length + " songs)")
+
+                div.addEventListener('click', ()=>{
+                    let allDivs = document.querySelectorAll(".wr_playlist_results div")
+                    for(let pl of allDivs) {
+                        pl.classList.remove("plSelect")
+                    }
+                    div.classList.add("plSelect")
+                    this.game.emit("findPlaylist", playlist.url)
+                })
             }
         }
     }

@@ -4,44 +4,53 @@ var player;
 
 document.addEventListener('DOMContentLoaded', () => {
 
-    const Game = new GameManager()
-    const Modale = new ModaleManager()
-    const Playlist = new PlaylistManager(Game)
-    const Sections = new SectionsManager(Game)
+    window.YT.ready(function() {
+        
+        const Game = new GameManager()
+        const Player = new YTPlayer(initPlayer())
+        const Modale = new ModaleManager()
+        const Playlist = new PlaylistManager(Game)
+        const Sections = new SectionsManager(Game)
 
-    Game.start()
-    // let button = document.querySelector('.findPlaylist')
-    // let input = document.querySelector('input')
-    // button.addEventListener('click', () => {
-    //     createLoader()
-    //     socket.emit('findPlaylist', input.value)
-    // })
+        Game.start()
+        // let button = document.querySelector('.findPlaylist')
+        // let input = document.querySelector('input')
+        // button.addEventListener('click', () => {
+        //     createLoader()
+        //     socket.emit('findPlaylist', input.value)
+        // })
 
-    socket.on('getSong', song => {
-        removeLoader()
-        console.log(song)
-        let id = song.url.split("=")
-        initPlayer(id[1])
-    })
+        Game.on('getSong', song => {
+            //console.log(song)
+            //removeLoader()
+            //console.log(song)
+            let id = song.url.split("=")[1]
+            Player.stop()
+            Player.load(id)
+            Player.play()
+            //initPlayer(id[1])
+        })
 
-   /* socket.on('getPlaylist', res => {
-        let content = document.querySelector('.playlist')
-        content.innerHTML = ""
-        _('h1', content, res.name)    
-    })*/
+    /* socket.on('getPlaylist', res => {
+            let content = document.querySelector('.playlist')
+            content.innerHTML = ""
+            _('h1', content, res.name)    
+        })*/
 
-    socket.on('getPlaylist', res => {
-        removeLoader()
-        Playlist.playlistResults(res)
+        Game.on('getPlaylist', res => {
+            //removeLoader()
+            console.log("pl")
+            Playlist.playlistResults(res)
+        })
     })
 })
 
-function initPlayer(id) {
+ function initPlayer(id) {
 
-    player = new YT.Player('video-placeholder', {
+    return new window.YT.Player('video-placeholder', {
         width: 0,
         height: 0,
-        videoId: id,
+       // videoId: id,
         playerVars: {
             color: 'white',
         },
@@ -50,9 +59,13 @@ function initPlayer(id) {
         }
     });
 }
-
+/*
 function initialize(){
     player.playVideo();
+} */
+
+function initialize() {
+
 }
 
 function createLoader() {
@@ -65,18 +78,4 @@ function removeLoader() {
     if(loader) {
         loader.remove()
     }
-}
-
-function createPlaylist(list) {
-    console.log(list)
-    let content = document.querySelector('.playlist')
-
-    content.innerHTML = ""
-
-    _('h1', content, list.name)
-
-    // let listUL = _('ul', content)
-    // for(let song of list.musics) {
-    //     _('li', listUL, song.name)
-    // }
 }

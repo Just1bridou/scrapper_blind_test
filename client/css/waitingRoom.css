@@ -188,3 +188,7 @@ button#ready_button:disabled:hover {
         background-color: #1db954;
     }
 }
+
+.plSelect {
+    background-color: #1db954 !important;
+}

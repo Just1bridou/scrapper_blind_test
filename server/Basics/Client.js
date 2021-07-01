@@ -12,7 +12,8 @@ module.exports = class Client {
     }
 
     sendClientPlaylist(socket, fullUrl, playlist) {
-        socket.emit("getPlaylist", {url: fullUrl, playlist: playlist})
+        console.log("emit")
+        this.emit("getPlaylist", {url: fullUrl, playlist: playlist})
     }
 
     init() {

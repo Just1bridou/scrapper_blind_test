@@ -101,35 +101,19 @@ io.on("connect", (socket) => {
     })
   })
 
-    socket.on("findPlaylist", (fullUrl) => {
+    Client.on("findPlaylist", (fullUrl) => {
 
-      console.log('find playlist with url: ' + fullUrl)
-
-      let id = Playlist.getIdFromURL(fullUrl)
-
-      Playlist.getPlaylistById(id, (playlist) => {
-        Client.sendClientPlaylist(socket, fullUrl, playlist)
-      })
-
-     /* pptFct.getMusics(url).then((res) => {
-          //socket.emit("getPlaylist", res)
-
-        parseAllSongs(res.musics, (res) => {
-          console.log(res)
-        })
+      Playlist.getPlaylistById(Playlist.getIdFromURL(fullUrl), res => {
+        res = res[0]
          
-         // let rdm = getRandomMusic(res.musics)
-         /* pptFct.getYoutubeVideos(rdm).then((song) => {
-            // socket.emit("getSong", song)
+        let rdm = getRandomMusic(res.songs)
 
-            for(let url of song) {
-              if(url != null) {
-                socket.emit("getSong", {music: rdm, url: url})
-                return
-              }
-            }
-          })*/
-      //})
+        console.log(rdm)
+        if(rdm.url != null) {
+          Client.emit("playlistChose", res.name)
+          Client.emit("getSong", {music: rdm, url: rdm.url})
+        }
+      })
     })
 })
 
