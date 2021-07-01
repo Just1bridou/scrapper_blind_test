@@ -14,6 +14,7 @@ class SectionsManager {
 
     init() {
         this.game.on("showSection", name => {
+            this.sections[name].init()
             this.show(name)
         })
 
@@ -22,6 +23,7 @@ class SectionsManager {
         })
 
         this.game.on("transitionSection", data => {
+            this.sections[data.to].init()
             this.transition(data.from, data.to)
         })
 
@@ -31,8 +33,8 @@ class SectionsManager {
     }
 
     refreshAllPlayerList(data) {
-        for(let fct of this.allPlayersList) {
-            fct(data, this.sections["waitingRoom"])
+        for(let key in this.allPlayersList) {
+            this.allPlayersList[key](data, this.sections[key])
         }
     }
 

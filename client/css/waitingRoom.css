@@ -1,0 +1,190 @@
+section#waitingRoom {
+    min-height: 100vh;
+    padding: 30px;
+    display: flex;
+}
+
+section.wr_plistContent {
+    flex: 1;
+    background-color: #2D1C38;
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.wr_playerCase {
+    font-size: 40px;
+    color: white;
+    padding: 15px;
+    background-color: #3F3248;
+    border-radius: 22px;
+    margin-top: 10px;
+}
+
+section.body {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 30px;
+}
+
+h1.wr_title {
+    color: white;
+    font-size: 60px;
+    margin-bottom: 10px;
+}
+
+.wr_body_2 {
+    flex: 1;
+}
+
+.wr_playlist_content {
+    background-color: #2D1C38;
+    border-radius: 30px;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}
+
+h2.wr_playlist_title {
+    text-align: center;
+    color: #1db954;
+    padding: 20px;
+}
+
+input.wr_playlist_input {
+    margin: auto;
+    margin: auto;
+    width: 75%;
+    font-size: 20px;
+    border-radius: 30px;
+    padding: 10px;
+    border: none;
+}
+
+.wr_playlist_results {
+    margin-top: 20px;
+}
+
+.wr_playlist_results div {
+    font-size: 25px;
+    color: white;
+    padding: 10px;
+    background-color: #3F3248;
+    border-radius: 22px;
+    width: 75%;
+    margin: auto;
+    margin-top: 10px;
+    text-align: left;
+    text-indent: 20px;
+    transition: 0.1s all ease-in-out;
+}
+
+.wr_playlist_results div span {
+    font-size: 20px;
+    color: #dbef50;
+}
+
+.wr_playlist_results h3 {
+    color: #ffffff8c;
+}
+
+.wr_playlist_results button {
+    background-color: #1db954;
+    margin: 10px;
+    font-size: 20px;
+    border-radius: 20px;
+    padding: 5;
+    padding: 10px 30px;
+    border: none;
+}
+
+.wr_playlist_results div:hover {
+    cursor: pointer;
+    background-color: #1db954;
+}
+
+.wr_body_3 {
+    /* flex: 1; */
+    display: flex;
+    margin-top: 10px;
+}
+
+.wr_copyLink {
+    background-color: #1db954;
+    flex: 2;
+    margin: 10px;
+    margin-left: 0px;
+    position: relative;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 20px;
+    padding: 5;
+    padding: 10px;
+}
+
+.wr_copyLink input {
+    width: 50%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    opacity: 0;
+    height: 100%;
+    transition: 0.2s all ease-in-out;;
+}
+
+button#ready_button {
+    flex: 1;
+    margin: 10px;
+    margin-right: 0px;
+    background-color: #dbef50;
+    margin-left: 0px;
+    position: relative;
+    text-align: center;
+    font-size: 30px;
+    border-radius: 20px;
+    padding: 5;
+    padding: 10px;
+    border: none;
+}
+
+button#ready_button:disabled {
+    background-color: rgb(184, 184, 184);
+}
+
+button#ready_button:disabled:hover {
+    cursor: pointer;
+    filter: brightness(100%);
+}
+
+#waitingRoom button {
+    transition: 0.2s all ease-in-out;
+}
+
+.wr_copyLink input:hover, #waitingRoom button:hover {
+    cursor: pointer;
+    filter: brightness(70%);
+}
+
+.wr_copyLink:hover{
+    animation: loading 2s cubic-bezier(0, 0, 0.49, 0.76) infinite, rainbow 2s linear infinite;
+}
+
+@keyframes loading {
+    0% {
+        background-color: #1db954;
+    }
+
+    25% {
+        background-color: #21cf5e;
+    }
+
+    50% {
+        background-color: #1ba74c;
+    }
+
+    100% {
+        background-color: #1db954;
+    }
+}

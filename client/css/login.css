@@ -1,0 +1,39 @@
+#login h1 {
+    color: white;
+    font-size: 70px;
+    text-align: center;
+    margin: 150px;
+}
+
+.loginButtonContent {
+    text-align: center;
+}
+
+input#login_pseudo {
+    margin: auto;
+    width: 65%;
+    font-size: 35px;
+    border-radius: 30px;
+    padding: 15px;
+    border: none;
+    text-indent: 30px;
+}
+
+button#createRoom {
+    margin: auto;
+    width: 65%;
+    font-size: 35px;
+    border-radius: 30px;
+    padding: 15px;
+    border: none;
+    text-indent: 30px;
+    background-color: #1DB954;
+    color: white;
+    margin-top: 50px;
+    transition: 0.2s all ease-in-out;
+}
+
+button#createRoom:hover {
+    cursor: pointer;
+    filter: brightness(70%);
+}

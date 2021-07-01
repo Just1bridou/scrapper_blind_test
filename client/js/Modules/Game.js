@@ -3,7 +3,7 @@ class GameManager {
         this.socket = io()
         this.name = "BLIND TEST"
         this.uuid = sessionStorage.getItem('uuidPlayer');
-        this.room = window.location.pathname.split('/')[2]
+        this.code = window.location.pathname.split('/')[2]
         this.init()
     }
     
@@ -14,6 +14,10 @@ class GameManager {
         this.socket.on('saveUUID', (player) => {
             sessionStorage.setItem('uuid', player.uuid);
             sessionStorage.setItem('player', JSON.stringify(player))
+        })
+
+        this.socket.on('roomCreated', (data) => {
+            this.code = data.code
         })
     }
 

@@ -1,6 +1,28 @@
 class PlaylistManager {
-    constructor(modale) {
-        this.modaleManager = modale
+    constructor(game) {
+        this.modaleManager = new ModaleManager()
+        this.game = game
+    }
+
+    getAllPlaylists(cb, limit = 10) {
+        this.game.emit("getAllPlaylists", limit)
+        this.game.on("getAllPlaylists", data => {
+            cb(data)
+        })
+    }
+
+    searchNewPlaylist(url, cb) {
+        this.game.emit("searchNewPlaylist", url)
+        this.game.on("searchNewPlaylist", data => {
+            cb(data)
+        })
+    }
+
+    addPlaylist(url, cb) {
+        this.game.emit("addPlaylist", url)
+        this.game.on("addPlaylist", data => {
+            cb(data)
+        })
     }
 
     playlistResults(res) {

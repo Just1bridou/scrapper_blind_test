@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const Game = new GameManager()
     const Modale = new ModaleManager()
-    const Playlist = new PlaylistManager(Modale)
+    const Playlist = new PlaylistManager(Game)
     const Sections = new SectionsManager(Game)
 
     Game.start()

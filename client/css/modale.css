@@ -10,18 +10,42 @@
 
 .modale_content {
     width: 60%;
-    height: 80%;
+    min-height: 40%;
     position: relative;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: #3F3248;
     border-radius: 30px;
     padding: 20px;
+    text-align: center;
+}
+
+.wr_modale_content_input {
+    margin: auto;
+    width: 100%;
+    font-size: 20px;
+    border-radius: 30px;
+    padding: 10px;
+    border: none;
+}
+
+.wr_modale_content_add {
+    background-color: #1db954;
+    margin: 10px;
+    font-size: 20px;
+    border-radius: 20px;
+    padding: 5;
+    padding: 10px 30px;
+    border: none;
+    width: 25%;
 }
 
 .modale_title {
     text-align: center;
+    font-size: 25px;
+    color: white;
+    padding: 20px;
 }
 
 .modale_description {
@@ -30,18 +54,104 @@
 
 .modale_closeButton {
     position: absolute;
-    right: 10px;
-    top: 10px;
+    right: 20px;
+    top: 20px;
     border-radius: 100%;
-    font-size: 25px;
-    background-color: red;
+    font-size: 30px;
     width: 30px;
     height: 30px;
     text-align: center;
-    line-height: 30px;
+    color: #ffffffa6;
 }
 
 .modale_closeButton:hover {
     cursor: pointer;
     filter: brightness(70%);
+}
+
+.modale_content button {
+    transition: 0.2s all ease-in-out;
+}
+
+.modale_content button:hover {
+    cursor: pointer;
+    filter: brightness(70%);
+}
+
+.wr_modale_results h2 {
+    color: #ffffff8c;
+    padding: 20px;
+}
+
+.wr_modale_results div {
+    font-size: 20px;
+    color: white;
+    padding: 10px;
+    background-color: #5d5463;
+    border-radius: 22px;
+    width: 75%;
+    margin: auto;
+    margin-top: 10px;
+    text-align: left;
+    text-indent: 20px;
+    position: relative;
+    transition: 0.1s all ease-in-out;
+}
+
+.wr_modale_results div span {
+    font-size: 17px;
+    color: #dbef50;
+}
+
+.wr_modale_results button {
+    background-color: #1db954;
+    font-size: 15px;
+    border-radius: 20px;
+    padding: 5;
+    padding: 5px 15px;
+    border: none;
+    float: right;
+    position: absolute;
+    right: 9px;
+    top: 50%;
+    transform: translateY(-50%);
+    overflow: hidden;
+}
+
+.pg_h5 {
+    font-size: 17px;
+    color: white;
+    text-align: left;
+    width: 75%;
+    margin: auto;
+    margin-top: 20px;
+    text-indent: 10px;
+}
+
+.pg_main {
+    position: relative;
+    height: 30px;
+    width: 75%;
+    background-color: #5d5463;
+    margin: auto;
+    border-radius: 50px;
+}
+
+.pg_progress {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 0;
+    background-color: #1db954;
+    width: 0%;
+    height: 100%;
+    border-radius: 50px;
+}
+
+.pg_nbContainer {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
 }

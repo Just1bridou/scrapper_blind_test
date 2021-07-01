@@ -4,20 +4,26 @@ module.exports = {
 
 async function scrape_youtube(browser, keyword) {
 
+  try {  
     const page = await browser.newPage();
     await page.setViewport({ width: 1280, height: 800 });
     await page.goto('https://www.youtube.com');
 
     try {
-        await page.waitForSelector('#yDmH0d > c-wiz > div > div > div > div.NIoIEf > div.G4njw > div.qqtRac > form > div.lssxud > div > button > div.VfPpkd-Jh9lGc')
-        var buttonCookie = await page.$('#yDmH0d > c-wiz > div > div > div > div.NIoIEf > div.G4njw > div.qqtRac > form > div.lssxud > div > button > div.VfPpkd-Jh9lGc');
-        await buttonCookie.click({ clickCount: 1 });
+        await page.waitForSelector('#yDmH0d > c-wiz > div > div > div > div.NIoIEf > div.G4njw > div.qqtRac > form > div.lssxud > div > button', {
+            timeout: 5000
+          })
+        var buttonCookie = await page.$('#yDmH0d > c-wiz > div > div > div > div.NIoIEf > div.G4njw > div.qqtRac > form > div.lssxud > div > button');
+        await buttonCookie.click({ clickCount: 3 });
     } catch {
-        console.log("youtube cookies ok")
-        await page.screenshot({path: "error.png"})
+      console.log("no cookies")
+      await page.screenshot({path: "screen.png"})
     }
 
-    await page.waitForSelector('input[id="search"]');
+
+    await page.waitForSelector('input[id="search"]', {
+        timeout: 5000
+      });
 
     // before we do anything, parse the results of the front page of youtube
    /* await page.waitForSelector('ytd-video-renderer,ytd-grid-video-renderer', { timeout: 10000 });
@@ -48,4 +54,9 @@ async function scrape_youtube(browser, keyword) {
 
   //  console.log("bef return")
     return videos;
+
+  } catch(e) {
+    console.log(e)
+    return [] 
+  }
 }
