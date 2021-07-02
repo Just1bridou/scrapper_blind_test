@@ -76,7 +76,7 @@ io.on("connect", (socket) => {
   Client.on("addPlaylist", url => {
     pptFct.getMusics(Playlist.getIdFromURL(url), resMusic => {
 
-    parseAllSongs(resMusic.musics, (res) => {
+      parseAllSongs(resMusic.musics, (res) => {
         for(let music of res) {
           if(music != undefined) {
             music.name = normalize(music.name)

@@ -142,9 +142,6 @@ class SectionWR {
                 let input = _('input', modaleContent, null, null, 'wr_modale_content_input')
                 input.placeholder = "SPOTIFY URL..."
                 
-                // TODO remove
-                input.value = "https://open.spotify.com/playlist/6J7xdAmvpquhkPG1sxldMp?si=f496063e3e6c454d"
-                
                 let button = _('button', modaleContent, "Rechercher", null, 'wr_modale_content_add')
 
                 let modaleResults = _('div', modaleContent, null, null, 'wr_modale_results')
