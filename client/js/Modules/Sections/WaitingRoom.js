@@ -197,7 +197,7 @@ class SectionWR {
                         pl.classList.remove("plSelect")
                     }
                     div.classList.add("plSelect")
-                    this.game.emit("findPlaylist", playlist.url)
+                    this.game.emit("selectRoomPlaylist", playlist.url)
                 })
             }
         }

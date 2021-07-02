@@ -39,6 +39,9 @@ io.on("connect", (socket) => {
     let room = new Room()
     room.addPlayer(player, socket)
 
+    Client.room = room
+    Client.player = player
+
     let params = {
       "code": room.code,
       "uuidPlayer": player.uuid
@@ -101,20 +104,26 @@ io.on("connect", (socket) => {
     })
   })
 
-    Client.on("findPlaylist", (fullUrl) => {
+  Client.on("selectRoomPlaylist", (fullUrl) => {
 
-      Playlist.getPlaylistById(Playlist.getIdFromURL(fullUrl), res => {
-        res = res[0]
-         
-        let rdm = getRandomMusic(res.songs)
+    Playlist.getPlaylistById(Playlist.getIdFromURL(fullUrl), res => {
+      res = res[0]
+        
+      let rdm = getRandomMusic(res.songs)
 
-        console.log(rdm)
-        if(rdm.url != null) {
-          Client.emit("playlistChose", res.name)
-          Client.emit("getSong", {music: rdm, url: rdm.url})
-        }
-      })
+      console.log(rdm)
+      if(rdm.url != null) {
+        Client.room.playlist = res
+        Client.emit("playlistChose", res.name)
+        //Client.emit("getSong", {music: rdm, url: rdm.url})
+      }
     })
+  })
+
+  Client.on("startGame", data => {
+    Client.room.playersEvent("startGame")
+  })
+
 })
 
 function normalize(s) {

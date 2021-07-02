@@ -2,6 +2,8 @@
 
 module.exports = class Client {
     constructor(socket) {
+        this.room = null
+        this.player = null
         this.socket = socket
         this.roomsLists = []
         this.init()

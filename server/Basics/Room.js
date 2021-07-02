@@ -5,6 +5,9 @@ module.exports = class Room {
         this.code = this.generateRoomToken()
         this.playersList = []
         this.socketsList = []
+
+        this.playlist = null
+        this.liveMusic = null
     }
     
     addPlayer(player, socket) {
