@@ -110,7 +110,6 @@ class SectionsManager {
      * Create modal to join the room
      */
     newModalConnect() {
-        this.dismiss(this.login.section)
         let pseudo = document.createElement('input')
         pseudo.placeholder = "Pseudo"
         let button = document.createElement('button')
@@ -138,7 +137,7 @@ class SectionsManager {
                 button.disabled = false;
                 
                 if (event.keyCode === 13 ) {
-                    this.game.socket.emit("newPlayer", {"pseudo": pseudo.value, "room": Game.room})
+                    this.game.emit("newPlayer", {"pseudo": pseudo.value, "code": this.game.code})
                 }
 
             } else {
@@ -147,13 +146,11 @@ class SectionsManager {
         })
 
         button.addEventListener('click', () => {
-            this.game.socket.emit("newPlayer", {"pseudo": pseudo.value, "room": this.game.room})
+            this.game.emit("newPlayer", {"pseudo": pseudo.value, "code": this.game.code})
         })
 
-        this.game.socket.on('removeModal', () => {
+        this.game.on('removeModal', () => {
             hiden.remove()
-            this.wr.initWaitingRoom()
-            this.show(this.wr.section)
         })
     }
 }

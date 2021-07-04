@@ -26,6 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
             Player.play()
         })
 
+        Game.on("newModaleConnection", data => {
+            Sections.newModalConnect()
+        })
+
         Game.on('startGame', name => {
             Sections.transition("waitingRoom", "inGame")
             Sections.sections["inGame"].init()

@@ -46,7 +46,7 @@ class GameManager {
     }
 
     start() {
-        this.emit("browserConnection")
+        this.emit("browserConnection", this.code)
     }
 
     emit(name, data = null) {

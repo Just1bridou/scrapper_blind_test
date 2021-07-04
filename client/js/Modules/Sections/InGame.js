@@ -79,8 +79,15 @@ class SectionInGame {
             section.playersList.innerHTML = ""
 
             for(let player of playerList) {
-                let playerLi = _('div', section.playersList, player.name)
-                playerLi.classList.add('wr_playerCase')
+                console.log("----")
+                console.log(player.name)
+                console.log(player.score)
+                let playerLi = _('div', section.playersList)
+                _('span', playerLi, player.name, null, "plName")
+                let ptnsDiv = _('span', playerLi, null, null, "plScore")
+                    _('span', ptnsDiv, player.score + "", null, "greenColor")
+                    _('span', ptnsDiv, " ptn")
+                playerLi.classList.add('ig_playerCase')
             }
         }
 

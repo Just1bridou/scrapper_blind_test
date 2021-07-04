@@ -29,6 +29,12 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/client/pages/index.html")
 })
 
+app.get('/r/:code', function (req, res) {
+  res.sendFile(__dirname + "/client/pages/index.html")
+});
+
+var serverRooms = []
+
 io.on("connect", (socket) => { 
   
   const Client = new ClientBasic(socket)
@@ -41,6 +47,8 @@ io.on("connect", (socket) => {
 
     Client.room = room
     Client.player = player
+    
+    serverRooms.push(room)
 
     let params = {
       "code": room.code,
@@ -52,6 +60,35 @@ io.on("connect", (socket) => {
     
     Client.goToSection("login", "waitingRoom")
     room.playersEvent("refreshPlayersList", room.playersList)
+  })
+
+  Client.on("newPlayer", data => {
+    let room = getRoom(data.code)
+    let player = new Player(data.pseudo)
+    
+    Client.room = room
+    Client.player = player
+
+    Client.room.addPlayer(player, socket)
+
+    let params = {
+      "code": room.code,
+      "uuidPlayer": player.uuid
+    }
+
+    Client.emit("roomCreated", params)
+    Client.emit("saveUUID", player)
+    Client.emit("removeModal")
+    Client.showSection("waitingRoom")
+    Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
+  })
+
+  Client.on("browserConnection", code => {
+    if(roomExist(code)) {
+        Client.emit("newModaleConnection")
+    } else {
+        Client.showSection("login")
+    }
   })
 
   Client.on("getAllPlaylists", limit => {
@@ -111,7 +148,7 @@ io.on("connect", (socket) => {
       res = res[0]
     
       Client.room.playlist = res
-      Client.emit("playlistChose", res.name)
+      Client.room.playersEvent("playlistChose", res.name)
     })
   })
 
@@ -127,7 +164,7 @@ io.on("connect", (socket) => {
       Client.room.playersEvent("startGame", Client.room.playlist.name)
       setTimeout(() => {
         Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
-        Client.emit("getSong", Client.room.liveMusic.live.fullMusic.url)
+        Client.room.playersEvent("getSong", Client.room.liveMusic.live.fullMusic.url)
       }, 1500)
     }
   })
@@ -143,14 +180,15 @@ io.on("connect", (socket) => {
   Client.on("buffering", cb => {
     Client.room.readyBuffer(Client.player.uuid)
     if(Client.room.checkAllBuffer()) {
-      Client.emit("playerPlay")
+      Client.room.playersEvent("playerPlay")
     }
   })
 
   Client.on("guessing", str => {
    // Client.room.liveMusic.chat.push({user: Client.player.name, msg: str})
     Client.room.playersEvent("newChatMessage", {user: Client.player.name, msg: str})
-    Client.room.checkResponse(str)
+    Client.room.checkResponse(str, Client.player)
+    Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
     if(Client.room.allIsFind()) {
       skipMusic()
     }
@@ -159,10 +197,28 @@ io.on("connect", (socket) => {
   function skipMusic() {
     Client.room.resetBuffer()
     Client.room.setRandomMusic()
-    Client.emit("getSong", Client.room.liveMusic.live.fullMusic.url)
+    Client.room.playersEvent("getSong", Client.room.liveMusic.live.fullMusic.url)
   }
 
 })
+
+function roomExist(code) {
+  for(let room of serverRooms) {
+    if(room.code == code) {
+      return true
+    }
+  }
+  return false
+}
+
+function getRoom(code) {
+  for(let room of serverRooms) {
+    if(room.code == code) {
+      return room
+    }
+  }
+  return null
+}
 
 function normalize(s) {
   console.log(s)

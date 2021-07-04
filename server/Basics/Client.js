@@ -19,9 +19,21 @@ module.exports = class Client {
     }
 
     init() {
-        this.on("browserConnection", res => {
-            this.showSection("login")
-        })
+        
+    }
+
+    roomExist(code) {
+        console.log("checking code : ", code)
+        if(code != null) {
+            console.log(this.roomsLists)
+            for(let room of this.roomsLists) {
+                if(room.code == code) {
+                    console.log(room.code)
+                    return true
+                }
+            }
+        }
+        return false
     }
 
     emit(name, data = null) {

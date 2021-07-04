@@ -32,7 +32,7 @@ class YTPlayer {
     }
 
     load(id) {
-        this.player.loadVideoById(id, getRndInteger(0,30), "default")
+        this.player.loadVideoById(id, 5/*getRndInteger(0,30)*/, "default")
     }
     
     play() {

@@ -200,3 +200,28 @@ button.ig_repButton {
 .ig_status {
     font-size: 30px;
 }
+
+.ig_playerCase {
+    display: flex;
+    flex-direction: column;
+    font-size: 40px;
+    color: white;
+    padding: 15px;
+    background-color: #3F3248;
+    border-radius: 22px;
+    margin-top: 10px;
+}
+
+.plName {
+    font-size: 25px;
+}
+
+.plScore {
+    margin-top: 5px;
+    font-size: 20px;
+}
+
+.greenColor {
+    font-size: 22px;
+    color: #1db954;
+}

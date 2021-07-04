@@ -15,10 +15,12 @@ module.exports = class Room {
         }
     }
 
-    checkResponse(str) {
-        if(str == this.liveMusic.live.music.name) {
+    checkResponse(str, player) {
+        if(str == this.liveMusic.live.music.name && !this.liveMusic.live.music.find) {
+            player.score += 70
             this.liveMusic.live.music.find = true
-        } else if(str == this.liveMusic.live.artist.name) {
+        } else if(str == this.liveMusic.live.artist.name && !this.liveMusic.live.artist.find) {
+            player.score += 30
             this.liveMusic.live.artist.find = true
         }
     }
@@ -29,7 +31,8 @@ module.exports = class Room {
 
     createMusic() {
         for(let music of this.playlist.songs) {
-            if(music.url != null) {
+            console.log(music)
+            if(music != null && music.url != null) {
                 this.liveMusic.toPlay.push(music.id)
             }
         }

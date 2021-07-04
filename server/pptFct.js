@@ -50,9 +50,11 @@ function getNextPlaylist(spotifyApi, results, id, cb, offset = 0) {
 
       for(let i=0; i < data.body.items.length; i++) {
         let song = data.body.items[i]
+        let idNb = (parseInt(i) + parseInt(offset))
+        console.log(idNb)
        results.musics.push(
          {
-           id: i + offset, 
+           id: eval(idNb), 
            artist: song.track.artists[0].name,
            name: song.track.name
           }
@@ -75,9 +77,9 @@ function getOffset(url) {
   return url.searchParams.get("offset");
 }
 
-async function getYoutubeVideos(title) {
+async function getYoutubeVideos(music) {
   const browser = await puppeteer.launch();
-  let results = await youtube.scrape_youtube(browser, title.name);
+  let results = await youtube.scrape_youtube(browser, music.artist + " " + music.name);
   await browser.close();
   return results
 }
