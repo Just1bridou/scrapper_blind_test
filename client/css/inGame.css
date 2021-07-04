@@ -1,0 +1,202 @@
+#inGame {
+    min-height: 100vh;
+    padding: 30px;
+    display: flex;
+    max-height: 100vh;
+}
+
+/* L Panel */
+.ig_lPanel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.ig_crown_container {
+    text-align: center;
+}
+
+.ig_crown_container i {
+    color: #1db954;
+    font-size: 50px;
+}
+
+.ig_pList {
+    flex: 11;
+    background-color: #2D1C38;
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.ig_buttons_bar {
+    flex: 1;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 10px;
+}
+
+.ig_buttons_bar button {
+    background-color: #1db954;
+    border-radius: 50%;
+    border:none;
+    margin: 5px;
+    
+    min-height: 8vh;
+    min-width: 8vh;
+}
+
+/* R Panel */
+.ig_rPanel {
+    flex: 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin-left: 30px;
+}
+
+.ig_rPanel_top {
+    display: flex;
+    margin-bottom: 30px;
+}
+
+.wave_viewer {
+    display: flex;
+    align-items: center;
+    height: 7vh;
+    width: 30%;
+    background-color: #1db954;
+    border-radius: 30px;
+    overflow: hidden;
+    padding: 5px 30px;
+}
+
+.wavePipe {
+    margin: 2px;
+    flex: 1;
+    width: auto;
+    height: 20%;
+    background-color: white;
+    border-radius: 50px;
+}
+
+.rPanel_infosContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    color: white;
+    margin-left: 30px;
+}
+
+.rPanel_timerContainer {
+    flex: 1;
+    width: 100%;
+    position: relative;
+}
+
+.rPanel_timer {
+    position: absolute;
+    right: 0;
+}
+
+.rPanel_timer_bg {
+    position: relative;
+    background-color: #1db954;
+    border-radius: 50%;
+    border: none;
+    height: 8vh;
+    width: 8vh;
+}
+
+.rPanel_timer_time {
+    position: absolute;
+    background-color: white;
+    border-radius: 50%;
+    border: none;
+    height: 6vh;
+    width: 6vh;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    line-height: 6vh;
+}
+
+.rPanel_timer_time h4 {
+    color: #1db954;
+    font-size: 30px;
+}
+
+.ig_rPanel_mid {
+    flex: 1;
+    background-color: #2D1C38;
+    border-radius: 30px;
+    padding: 30px;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.ig_rPanel_repContainer {
+    display: flex;
+    margin-top: 30px;
+    margin-bottom: 5px;
+}
+
+input.ig_repInput {
+    border-radius: 30px;
+    font-size: 40px;
+    text-indent: 30px;
+    padding: 10px;
+    flex: 1;
+    margin-right: 10px;
+    border: none;
+}
+
+button.ig_repButton {
+    background-color: #1db954;
+    /* margin: 10px; */
+    font-size: 30px;
+    border-radius: 30px;
+    padding: 5;
+    padding: 10px 30px;
+    border: none;
+}
+
+#inGame button {
+    transition: 0.2s all ease-in-out;
+}
+
+#inGame button:hover {
+    cursor: pointer;
+    filter: brightness(70%);
+}
+
+.ig_msgContainer {
+    display: flex;
+    margin: 5px;
+}
+
+.ig_msgUser {
+    color: #1db954;
+    flex: 1;
+    text-align: right;
+    font-size: 30px;
+    padding: 5px;
+}
+
+.ig_msg {
+    color: white;
+    flex: 5;
+    font-size: 30px;
+    padding: 5px;
+}
+
+.ig_playlistName {
+    font-size: 25px;
+    color: #1db954;
+}
+
+.ig_status {
+    font-size: 30px;
+}

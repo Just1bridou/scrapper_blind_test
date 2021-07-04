@@ -192,3 +192,7 @@ button#ready_button:disabled:hover {
 .plSelect {
     background-color: #1db954 !important;
 }
+
+.ready {
+    background-color: #1db954 !important;
+}

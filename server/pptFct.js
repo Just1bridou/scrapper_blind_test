@@ -50,7 +50,13 @@ function getNextPlaylist(spotifyApi, results, id, cb, offset = 0) {
 
       for(let i=0; i < data.body.items.length; i++) {
         let song = data.body.items[i]
-       results.musics.push({id: i, name: song.track.artists[0].name + " " + song.track.name})
+       results.musics.push(
+         {
+           id: i + offset, 
+           artist: song.track.artists[0].name,
+           name: song.track.name
+          }
+        )
       }
 
      if(data.body.next) {

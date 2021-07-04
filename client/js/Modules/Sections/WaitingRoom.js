@@ -71,12 +71,16 @@ class SectionWR {
         })
 
         this.ready_button.disabled = true
+
+        this.game.emit("isPlayerAdmin", admin => {
+            this.ready_button.disabled = admin
+        })
+
         this.ready_button.classList.remove('ready_click')
     
         this.ready_button.addEventListener('click', () => {
-            console.log("player ready")
-            this.ready_button.classList.toggle('ready_click')
-            this.game.emit("switchState", null)
+            this.ready_button.disabled = true
+            this.game.emit("playerReady", null)
         })
 
         this.Playlist.getAllPlaylists(data => {
@@ -99,9 +103,12 @@ class SectionWR {
 
         this.game.on("playlistChose", name => {
             this.playlistChose.innerHTML = name
+            this.ready_button.disabled = false
         })
 
         var refreshFCT = function refreshWRPL(playerList, section) {
+
+            section.playersList.innerHTML = ""
 
             let localPlayer = JSON.parse(sessionStorage.getItem('player'))
     
@@ -118,10 +125,10 @@ class SectionWR {
                     }
                 }
     
-                if(!player.ready) {
-                    playerLi.classList.add("unready")
+                if(player.ready) {
+                    playerLi.classList.add("ready")
                 } else {
-                    playerLi.classList.remove("unready")
+                    playerLi.classList.remove("ready")
                 }
             }
         }
@@ -187,7 +194,6 @@ class SectionWR {
 
         } else {
             for(let playlist of data) {
-                console.log(playlist)
                 let div = _('div', this.playlistsResults, playlist.name)
                 _('span', div, " (" + playlist.songs.length + " songs)")
 

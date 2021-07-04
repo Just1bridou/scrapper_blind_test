@@ -10,4 +10,8 @@ module.exports = class Player {
         this.ready = false
         this.score = 0
     }
+
+    setReady() {
+       this.ready = true 
+    }
 }

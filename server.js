@@ -81,8 +81,9 @@ io.on("connect", (socket) => {
 
       parseAllSongs(resMusic.musics, (res) => {
         for(let music of res) {
-          if(music != undefined) {
+          if(music != undefined) {    
             music.name = normalize(music.name)
+            music.artist = normalize(music.artist)
           }
         }
 
@@ -108,21 +109,58 @@ io.on("connect", (socket) => {
 
     Playlist.getPlaylistById(Playlist.getIdFromURL(fullUrl), res => {
       res = res[0]
-        
-      let rdm = getRandomMusic(res.songs)
-
-      console.log(rdm)
-      if(rdm.url != null) {
-        Client.room.playlist = res
-        Client.emit("playlistChose", res.name)
-        //Client.emit("getSong", {music: rdm, url: rdm.url})
-      }
+    
+      Client.room.playlist = res
+      Client.emit("playlistChose", res.name)
     })
   })
 
-  Client.on("startGame", data => {
-    Client.room.playersEvent("startGame")
+  Client.on("playerReady", data => {
+    Client.player.setReady()
+    Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
+    if(Client.room.checkAllReady()) {
+
+      Client.room.createBuffer()
+      Client.room.createMusic()
+      Client.room.setRandomMusic()
+
+      Client.room.playersEvent("startGame", Client.room.playlist.name)
+      setTimeout(() => {
+        Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
+        Client.emit("getSong", Client.room.liveMusic.live.fullMusic.url)
+      }, 1500)
+    }
   })
+
+  Client.on("skipMusic", data => {
+    skipMusic()
+  })
+
+  Client.on("isPlayerAdmin", cb => {
+    cb(Client.player.admin)
+  })
+
+  Client.on("buffering", cb => {
+    Client.room.readyBuffer(Client.player.uuid)
+    if(Client.room.checkAllBuffer()) {
+      Client.emit("playerPlay")
+    }
+  })
+
+  Client.on("guessing", str => {
+   // Client.room.liveMusic.chat.push({user: Client.player.name, msg: str})
+    Client.room.playersEvent("newChatMessage", {user: Client.player.name, msg: str})
+    Client.room.checkResponse(str)
+    if(Client.room.allIsFind()) {
+      skipMusic()
+    }
+  })
+
+  function skipMusic() {
+    Client.room.resetBuffer()
+    Client.room.setRandomMusic()
+    Client.emit("getSong", Client.room.liveMusic.live.fullMusic.url)
+  }
 
 })
 
@@ -130,11 +168,13 @@ function normalize(s) {
   console.log(s)
   var r=s.toLowerCase();
 
+  r = r.replace("- Live","")
+
   r = r.replace(/ *\([^)]*\) */g, "");
   r = r.replace(/ *\[[^)]*\] */g, "");
 
-  r = r.replace(new RegExp("[-'/\\.]", 'g'),"");
- // r = r.replace(new RegExp("\\s", 'g'),"");
+  r = r.replace(new RegExp("[!-/\\.]", 'g'),"");
+  
   r = r.replace(new RegExp("[àáâãäå]", 'g'),"a");
   r = r.replace(new RegExp("æ", 'g'),"ae");
   r = r.replace(new RegExp("ç", 'g'),"c");
@@ -145,8 +185,26 @@ function normalize(s) {
   r = r.replace(new RegExp("œ", 'g'),"oe");
   r = r.replace(new RegExp("[ùúûü]", 'g'),"u");
   r = r.replace(new RegExp("[ýÿ]", 'g'),"y");
- // r = r.replace(new RegExp("\\W", 'g'),"");
-  r = r.replace(/\s{2,}/g, ' ');
+  r = r.replace(new RegExp("ğ", 'g'),"g");
+  
+  r = r.replace("radio edit","")
+  r = r.replace("extended version","")
+  r = r.replace("version originale","")
+  r = r.replace("avec intro","")
+
+  r = r.replace(new RegExp("\\d{4} remaster", 'g'),"");
+  r = r.replace(new RegExp("\\d{4} remastered", 'g'),"");
+  r = r.replace(new RegExp("remaster \\d{4}", 'g'),"");
+  r = r.replace(new RegExp("remastered \\d{4}", 'g'),"");
+  r = r.replace(new RegExp("remasterise en \\d{4}", 'g'),"");
+
+  r = r.replace(new RegExp("original version \\d{4}", 'g'),"");
+  r = r.replace(new RegExp("\\d{4} original version", 'g'),"");
+
+  r = r.replace(new RegExp("version originale \\d{4}", 'g'),"");
+
+ // r = r.replace(/\s{2,}/g, ' ');
+  r = r.replace( /^\s+|\s+$/g, '' );
   return r;
 }
 
@@ -174,7 +232,7 @@ async function recursiveSong(max, i, cb, list, array, pg) {
 function returnSong(song, info) {
   for(let url of song) {
     if(url != null) {
-      return {id: info.id, url: url, name: info.name}
+      return {id: info.id, url: url, name: info.name, artist: info.artist}
     }
   }
 }
@@ -183,14 +241,6 @@ function percentage(i, max, pg) {
   let pc = Math.round(i * 100 / max)
   console.log(pc + "%")
   pg(pc)
-}
-
-function getRandomMusic(list) {
-  return list[getRndInteger(0, list.length)]
-}
-
-function getRndInteger(min, max) {
-  return Math.floor(Math.random() * (max - min) ) + min;
 }
 
 console.log("Listening on port: 1646")

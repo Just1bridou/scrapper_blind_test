@@ -8,6 +8,7 @@ class SectionsManager {
 
         this.sections["login"] = new SectionLogin(game)
         this.sections["waitingRoom"] = new SectionWR(game, this)
+        this.sections["inGame"] = new SectionInGame(game, this)
 
         this.init()
     }

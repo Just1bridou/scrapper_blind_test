@@ -55,6 +55,7 @@ body {
 
 #video-placeholder {
     display: none;
+ /* position: fixed;*/
 }
 
 input {

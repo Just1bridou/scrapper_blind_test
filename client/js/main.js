@@ -7,62 +7,32 @@ document.addEventListener('DOMContentLoaded', () => {
     window.YT.ready(function() {
         
         const Game = new GameManager()
-        const Player = new YTPlayer(initPlayer())
+        const Player = new YTPlayer(Game)
         const Modale = new ModaleManager()
         const Playlist = new PlaylistManager(Game)
         const Sections = new SectionsManager(Game)
 
         Game.start()
-        // let button = document.querySelector('.findPlaylist')
-        // let input = document.querySelector('input')
-        // button.addEventListener('click', () => {
-        //     createLoader()
-        //     socket.emit('findPlaylist', input.value)
-        // })
 
-        Game.on('getSong', song => {
-            //console.log(song)
-            //removeLoader()
-            //console.log(song)
-            let id = song.url.split("=")[1]
+        Game.on('getSong', url => {
+            let id = url.split("=")[1]
+            
             Player.stop()
             Player.load(id)
-            Player.play()
-            //initPlayer(id[1])
+            Player.pause()
         })
 
-    /* socket.on('getPlaylist', res => {
-            let content = document.querySelector('.playlist')
-            content.innerHTML = ""
-            _('h1', content, res.name)    
-        })*/
+        Game.on('playerPlay', data => {
+            Player.play()
+        })
 
-        Game.on('getPlaylist', res => {
-            //removeLoader()
-            console.log("pl")
-            Playlist.playlistResults(res)
+        Game.on('startGame', name => {
+            Sections.transition("waitingRoom", "inGame")
+            Sections.sections["inGame"].init()
+            Sections.sections["inGame"].setPlaylistName(name)
         })
     })
 })
-
- function initPlayer(id) {
-
-    return new window.YT.Player('video-placeholder', {
-        width: 0,
-        height: 0,
-       // videoId: id,
-        playerVars: {
-            color: 'white',
-        },
-        events: {
-            onReady: initialize
-        }
-    });
-}
-/*
-function initialize(){
-    player.playVideo();
-} */
 
 function initialize() {
 
