@@ -78,7 +78,7 @@ function getOffset(url) {
 }
 
 async function getYoutubeVideos(music) {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({ args: ['--no-sandbox'] });
   let results = await youtube.scrape_youtube(browser, music.artist + " " + music.name);
   await browser.close();
   return results
