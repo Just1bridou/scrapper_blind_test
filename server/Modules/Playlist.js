@@ -8,7 +8,7 @@ module.exports = {
 };
 
 var MongoClient = require("mongodb").MongoClient;
-const url = 'mongodb://127.0.0.1:27017'
+const url = "mongodb+srv://justin:9NGdgv83mfJqJ74Y@blindtest.l9dkk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 DB_NAME = "blindtest"
 
 function connect() {
