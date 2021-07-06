@@ -259,7 +259,7 @@ function normalize(s) {
 
   r = r.replace(new RegExp("version originale \\d{4}", 'g'),"");
 
- // r = r.replace(/\s{2,}/g, ' ');
+  r = r.replace(/\s{2,}/g, ' ');
   r = r.replace( /^\s+|\s+$/g, '' );
   return r;
 }
@@ -300,4 +300,4 @@ function percentage(i, max, pg) {
 }
 
 console.log("Listening on port: 1646")
-serverNode.listen(1646)
+serverNode.listen(process.env.PORT)
