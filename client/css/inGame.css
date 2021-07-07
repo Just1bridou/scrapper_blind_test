@@ -139,7 +139,7 @@
 
 .ig_rPanel_repContainer {
     display: flex;
-    margin-top: 30px;
+    margin-top: 15px;
     margin-bottom: 5px;
 }
 
@@ -224,4 +224,29 @@ button.ig_repButton {
 .greenColor {
     font-size: 22px;
     color: #1db954;
+}
+
+
+.ig_rPanel_repFinder {
+    color: white;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    margin-top: 15px;
+    text-align: center;
+}
+
+.ig_rPanel_spTitle, .ig_rPanel_spArtist {
+    border-bottom: 3px solid white;
+    min-width: 30%;
+    min-height: 30px;
+}
+
+.ig_rPanel_spMid {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.chatColor {
+    color: #dbef50;
 }

@@ -3,6 +3,7 @@ class SectionInGame {
         this.game = game
         this.sub = sub
         this.section = this.create()
+        this.sound_notification = new Audio('/sound/notification.mp3');
         
         this.playersList = this.section.querySelector('.ig_pList_container')
     }
@@ -47,10 +48,38 @@ class SectionInGame {
             this.game.on("newChatMessage", chat => {
                 let container = _('div', document.querySelector('.ig_rPanel_mid'), null, null, "ig_msgContainer")
                 _('h4', container, chat.user+ " : ", null, "ig_msgUser")
-                _('h4', container, chat.msg, null, "ig_msg")
+                let msg = _('h4', container, chat.msg, null, "ig_msg")
+                if(chat.find) {
+                    msg.classList.add('chatColor')
+                    this.sound_notification.play()
+                }
             })
 
             let botPanel = _('div', rPanel, null, null, "ig_rPanel_bot")
+
+                let responseFinder = _('div', botPanel, null, null, "ig_rPanel_repFinder")
+                    let spArtist = _('span', responseFinder, null, null, "ig_rPanel_spArtist")
+                    _('span', responseFinder, " - ", null, "ig_rPanel_spMid")
+                    let spTitle = _('span', responseFinder, null, null, "ig_rPanel_spTitle")
+
+                    this.game.on("guessing", data => {
+                        if(data != null) {
+                            switch(data.type) {
+                                case "artist":
+                                    spArtist.innerHTML = data.name
+                                    break;
+                                case "title":
+                                    spTitle.innerHTML = data.name
+                                    break;
+                            }
+                        }
+                    })
+
+                    this.game.on("getSong", data => {
+                        spArtist.innerHTML = ""
+                        spTitle.innerHTML = ""
+                    })
+
                 let responseContainer = _('div', botPanel, null, null, "ig_rPanel_repContainer")
                     let inputResponse = _('input', responseContainer, null, null, "ig_repInput")
                         inputResponse.placeholder = "Artiste / Titre ..."

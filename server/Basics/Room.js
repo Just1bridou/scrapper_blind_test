@@ -15,13 +15,18 @@ module.exports = class Room {
         }
     }
 
-    checkResponse(str, player) {
+    checkResponse(str, player, cb) {
+        str = str.toLowerCase()
         if(str == this.liveMusic.live.music.name && !this.liveMusic.live.music.find) {
-            player.score += 70
+            player.score += 60
             this.liveMusic.live.music.find = true
+            cb({type: "title", player: player.name, name: this.liveMusic.live.music.name})
         } else if(str == this.liveMusic.live.artist.name && !this.liveMusic.live.artist.find) {
-            player.score += 30
+            player.score += 40
             this.liveMusic.live.artist.find = true
+            cb({type: "artist", player: player.name, name: this.liveMusic.live.artist.name})
+        } else {
+            cb(null)
         }
     }
 
@@ -40,11 +45,15 @@ module.exports = class Room {
 
     setRandomMusic() {
         let randomMusic = this.playlist.songs[this.getRandomMusicId()]
-        this.liveMusic.live.artist = {name: randomMusic.artist, find: false}
-        this.liveMusic.live.music = {name: randomMusic.name, find: false}
-        this.liveMusic.live.fullMusic = randomMusic
+        if(randomMusic) {
+            this.liveMusic.live.artist = {name: randomMusic.artist, find: false}
+            this.liveMusic.live.music = {name: randomMusic.name, find: false}
+            this.liveMusic.live.fullMusic = randomMusic
 
-        console.log(this.liveMusic)
+            console.log(this.liveMusic)
+        } else {
+            this.playersEvent("newChatMessage", {user: "Server", msg: "End of playlist", find: true})
+        }
     }
 
     getRandomMusicId() {

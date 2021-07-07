@@ -1,5 +1,5 @@
 'use strict';
-
+const dotenv = require('dotenv').config()
 // Set server modules
 var http = require('http');
 let express = require("express")
@@ -24,6 +24,7 @@ const Playlist = require('./server/Modules/Playlist');
 
 app.use("/css", express.static( __dirname + "/client/css"))
 app.use("/js", express.static( __dirname + "/client/js"))
+app.use("/sound", express.static( __dirname + "/client/sound"))
 
 app.get("/", (req, res) => {
     res.sendFile(__dirname + "/client/pages/index.html")
@@ -186,12 +187,17 @@ io.on("connect", (socket) => {
 
   Client.on("guessing", str => {
    // Client.room.liveMusic.chat.push({user: Client.player.name, msg: str})
-    Client.room.playersEvent("newChatMessage", {user: Client.player.name, msg: str})
-    Client.room.checkResponse(str, Client.player)
-    Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
-    if(Client.room.allIsFind()) {
-      skipMusic()
-    }
+    Client.room.checkResponse(str, Client.player, data => {
+      let find = false
+        if(data != null)
+          find = true
+      Client.room.playersEvent("newChatMessage", {user: Client.player.name, msg: str, find: find})
+      Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
+      Client.room.playersEvent("guessing", data)
+      if(Client.room.allIsFind()) {
+        skipMusic()
+      }
+    })
   })
 
   function skipMusic() {
@@ -229,7 +235,7 @@ function normalize(s) {
   r = r.replace(/ *\([^)]*\) */g, "");
   r = r.replace(/ *\[[^)]*\] */g, "");
 
-  r = r.replace(new RegExp("[!-/\\.]", 'g'),"");
+  r = r.replace(new RegExp("[!/\\.,]", 'g'),"");
   
   r = r.replace(new RegExp("[àáâãäå]", 'g'),"a");
   r = r.replace(new RegExp("æ", 'g'),"ae");
@@ -247,6 +253,17 @@ function normalize(s) {
   r = r.replace("extended version","")
   r = r.replace("version originale","")
   r = r.replace("avec intro","")
+  r = r.replace("version mixte","")
+  r = r.replace("ed version","")
+  r = r.replace("rerecorded","")
+
+  r = r.replace(new RegExp(" - \\d{4}", 'g'),"");
+
+  r = r.replace(new RegExp("pt \\d", 'g'),"");
+  r = r.replace(new RegExp("pts \\d-\\d", 'g'),"");
+
+  r = r.replace("remaster","")
+  r = r.replace("remastered","")
 
   r = r.replace(new RegExp("\\d{4} remaster", 'g'),"");
   r = r.replace(new RegExp("\\d{4} remastered", 'g'),"");
@@ -258,9 +275,12 @@ function normalize(s) {
   r = r.replace(new RegExp("\\d{4} original version", 'g'),"");
 
   r = r.replace(new RegExp("version originale \\d{4}", 'g'),"");
+  r = r.replace(new RegExp("ed \\d{4}", 'g'),"");
 
   r = r.replace(/\s{2,}/g, ' ');
   r = r.replace( /^\s+|\s+$/g, '' );
+
+  r = r.replace(new RegExp(" -", 'g'),"");
   return r;
 }
 
@@ -299,5 +319,5 @@ function percentage(i, max, pg) {
   pg(pc)
 }
 
-console.log("Listening on port: 1646")
+console.log("Listening on port: ", process.env.PORT)
 serverNode.listen(process.env.PORT)
