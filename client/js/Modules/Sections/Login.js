@@ -7,7 +7,32 @@ class SectionLogin {
     }
 
     createLogin() {
-        let section = _('section', document.body, null, "login")
+
+        let section = new Section(
+            new Center(
+                [
+                    new Title(this.game.name),
+                    new Input({
+                        "placeholder": "Jouer ...",
+                        "id": "login_pseudo"
+                    }),
+                    new Button("Creer une partie", {
+                        "id": "createRoom"
+                    })
+                ], true, true,
+                {
+                    "layout_flex": "vertical"
+                }
+            ),
+            {
+                "height": "full",
+                "width": "full",
+            }
+        )
+
+       document.body.appendChild(section.elem)
+
+       /* let section = _('section', document.body, null, "login")
         section.classList.add('none')
         _("h1", section, this.game.name)
 
@@ -15,9 +40,9 @@ class SectionLogin {
         let div = _("div", divC, null, null, 'loginButtonContent')
         let input = _("input", div, null, "login_pseudo")
         input.placeholder = "Pseudo ..."
-        _("button", div, "CREER UNE PARTIE", "createRoom")
+        _("button", div, "CREER UNE PARTIE", "createRoom")*/
 
-        return section
+        return section.elem
     }
 
     /**

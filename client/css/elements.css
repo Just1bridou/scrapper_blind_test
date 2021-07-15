@@ -1,0 +1,56 @@
+* {
+    position: relative;
+}
+
+.height_full {
+    min-height: 100vh;
+}
+
+.width_full {
+    min-width: 100vw;
+}
+
+.elements_center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.elements_layout_flex_vertical {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    text-align: center;
+}
+
+.title {
+    font-size: 80px;
+    color: white;
+    margin: 5px;
+    text-align: center;
+}
+
+input {
+    width: 65%;
+    font-size: 35px;
+    border-radius: 30px;
+    padding: 15px;
+    border: none;
+    text-indent: 30px;
+    margin: 5px auto 5px auto;
+}
+
+button {
+    width: 65%;
+    font-size: 35px;
+    border-radius: 30px;
+    padding: 15px;
+    border: none;
+    text-indent: 30px;
+    background-color: #1DB954;
+    color: white;
+    margin-top: 50px;
+    transition: 0.2s all ease-in-out;
+    margin: 5px auto 5px auto;
+}
