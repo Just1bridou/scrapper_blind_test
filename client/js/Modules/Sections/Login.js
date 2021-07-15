@@ -30,7 +30,8 @@ class SectionLogin {
             }
         )
 
-       document.body.appendChild(section.elem)
+    section.elem.classList.add('none')
+    document.body.appendChild(section.elem)
 
        /* let section = _('section', document.body, null, "login")
         section.classList.add('none')

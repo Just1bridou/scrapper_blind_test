@@ -36,6 +36,7 @@ class YTPlayer {
     }
     
     play() {
+        this.player.unMute();
         this.player.playVideo();
     }
 
