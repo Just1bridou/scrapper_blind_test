@@ -149,15 +149,6 @@ button#ready_button {
     border: none;
 }
 
-button#ready_button:disabled {
-    background-color: rgb(184, 184, 184);
-}
-
-button#ready_button:disabled:hover {
-    cursor: pointer;
-    filter: brightness(100%);
-}
-
 #waitingRoom button {
     transition: 0.2s all ease-in-out;
 }

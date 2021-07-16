@@ -171,7 +171,18 @@ io.on("connect", (socket) => {
   })
 
   Client.on("skipMusic", data => {
-    skipMusic()
+    Client.player.skip = true
+    Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
+
+    if(Client.room.skipMusic()) {
+      Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
+      skipMusic()
+    }
+
+  })
+
+  Client.on("changeSoundPlayer", volume => {
+    Client.emit("changeSoundPlayer", volume)
   })
 
   Client.on("isPlayerAdmin", cb => {
@@ -195,12 +206,27 @@ io.on("connect", (socket) => {
       Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
       Client.room.playersEvent("guessing", data)
       if(Client.room.allIsFind()) {
-        skipMusic()
+        nextMusic()
       }
     })
   })
 
   function skipMusic() {
+
+    let data = Client.room.liveMusic.live.fullMusic
+    data.closeAfter = 3000
+
+    Client.room.playersEvent("skipMusic", data)
+
+    Client.room.resetBuffer()
+    Client.room.setRandomMusic()
+
+    setTimeout(()=> {
+      Client.room.playersEvent("getSong", Client.room.liveMusic.live.fullMusic.url)
+    }, data.closeAfter)
+  }
+
+  function nextMusic() {
     Client.room.resetBuffer()
     Client.room.setRandomMusic()
     Client.room.playersEvent("getSong", Client.room.liveMusic.live.fullMusic.url)

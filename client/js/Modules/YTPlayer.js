@@ -2,10 +2,11 @@ class YTPlayer {
     constructor(game) {
         this.game = game
         this.player = this.initPlayer()
+        this.init()
     }
 
     initPlayer() {
-        return new window.YT.Player('video-placeholder', {
+        let player = new window.YT.Player('video-placeholder', {
             width: 0,
             height: 0,
            // videoId: id,
@@ -19,6 +20,8 @@ class YTPlayer {
                 }
             }
         });
+
+        return player
     } 
 
     onPlayerStateChange(event) {
@@ -29,6 +32,16 @@ class YTPlayer {
 
     initialize() {
         console.log("YTPlayer Ready")
+    }
+
+    init() {
+        //this.player.setVolume(50)
+
+        this.game.on("changeSoundPlayer", volume => {
+            console.log(volume)
+            this.player.setVolume(volume)
+            console.log(this.player.getVolume())
+        })
     }
 
     load(id) {

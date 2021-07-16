@@ -1,3 +1,7 @@
+.modale_up {
+    top: 50% !important;
+}
+
 .modale_background {
     position: fixed;
     z-index: 100;
@@ -12,13 +16,14 @@
     width: 60%;
     min-height: 40%;
     position: relative;
-    top: 50%;
+    top: 200%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: #3F3248;
     border-radius: 30px;
     padding: 20px;
-    text-align: center;
+    text-align: center;    
+    transition: 0.5s all ease-in-out;
 }
 
 .wr_modale_content_input {

@@ -1,70 +1,63 @@
 class SectionLogin {
     constructor(game) {
         this.game = game
-        this.section = this.createLogin()
-        this.input = this.section.querySelector('#login_pseudo')
-        this.button = this.section.querySelector('#createRoom')
+        this.sectionObj = this.createLogin()
+        this.section = this.sectionObj.elem
     }
 
     createLogin() {
 
         let section = new Section(
             new Center(
-                [
-                    new Title(this.game.name),
-                    new Input({
-                        "placeholder": "Jouer ...",
-                        "id": "login_pseudo"
-                    }),
-                    new Button("Creer une partie", {
-                        "id": "createRoom"
-                    })
-                ], true, true,
-                {
-                    "layout_flex": "vertical"
-                }
+                new LayoutVertical(
+                    [
+                        new Title(this.game.name),
+                        new Input({
+                            "placeholder": "Jouer ...",
+                            "id": "login_pseudo",
+                            "type": "text"
+                        }),
+                        new Button("Creer une partie", {
+                            "id": "createRoom"
+                        })
+                    ]
+                ), true, true,
             ),
             {
                 "height": "full",
                 "width": "full",
+                "class": "none"
             }
         )
 
-    section.elem.classList.add('none')
-    document.body.appendChild(section.elem)
+        document.body.appendChild(section.elem)
 
-       /* let section = _('section', document.body, null, "login")
-        section.classList.add('none')
-        _("h1", section, this.game.name)
-
-        let divC = _("div", section, null, null, "divContent")
-        let div = _("div", divC, null, null, 'loginButtonContent')
-        let input = _("input", div, null, "login_pseudo")
-        input.placeholder = "Pseudo ..."
-        _("button", div, "CREER UNE PARTIE", "createRoom")*/
-
-        return section.elem
+        return section
     }
 
     /**
      * Init login page
      */
     init() {
-        this.input.addEventListener('keyup', (event) => {
-            if(this.input.value != "") {
-                this.button.disabled = false;
+
+        var input = this.sectionObj.Center.LayoutVertical.Input.elem
+        var button = this.sectionObj.Center.LayoutVertical.Button.elem
+
+        input.addEventListener('keyup', (event) => {
+            if(input.value != "") {
+                button.disabled = false;
                 
                 if (event.keyCode === 13 ) {
-                    this.game.emit("createRoom", { pseudo : this.input.value})
+                    this.game.emit("createRoom", { pseudo : input.value})
                 }
 
             } else {
-                this.button.disabled = true;
+                button.disabled = true;
             }
         })
     
-        this.button.addEventListener('click', () => {
-            this.game.emit("createRoom", { pseudo : this.input.value})
+        button.addEventListener('click', () => {
+            this.game.emit("createRoom", { pseudo : input.value})
         })
 
         this.game.on('roomCreated', (data) => {

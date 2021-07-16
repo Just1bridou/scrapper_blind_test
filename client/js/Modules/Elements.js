@@ -1,6 +1,7 @@
 class Elements {
 
-    constructor() {
+    constructor(children = null) {
+        this.init(children)
         this.attrList = {
             "rounded": {
                 "false": "elements_rounded_false",
@@ -34,6 +35,20 @@ class Elements {
         }
     }
 
+    init(children) {
+        if(children) {
+            this.children = children
+
+            if(Array.isArray(children)) {
+                for(let child of children) {
+                    this[child.constructor.name] = child
+                }
+            } else {
+                this[children.constructor.name] = children
+            }
+        }
+    }
+
     setAttributes(elem, attr) {
         if(attr == null)
             return
@@ -42,7 +57,11 @@ class Elements {
             if(this.attrList[key] && this.attrList[key][value]) {
                 elem.classList.add(this.attrList[key][value])
             } else {
-                elem.setAttribute(key, value)
+                if(key == "class") {
+                    elem.classList.add(value)
+                } else {
+                    elem.setAttribute(key, value)
+                }
             }
         }
     }
@@ -80,21 +99,21 @@ class Elements {
 
 class Container extends Elements {
     constructor(children, attr = null) {
-        super()
+        super(children)
         this.elem = this.initEl("div", children, attr)
     }
 }
 
 class Section extends Elements {
     constructor(children, attr = null) {
-        super()
+        super(children)
         this.elem = this.initEl("section", children, attr)
     }
 }
 
 class Center extends Elements {
     constructor(children, x = true, y = true, attr = null) {
-        super()
+        super(children)
         this.elem = this.initEl("div", children, attr)
         if(x && y) {
             this.elem.classList.add('elements_center')
@@ -104,6 +123,22 @@ class Center extends Elements {
             if(y)
                 this.elem.classList.add('elements_center_y')
         }
+    }
+}
+
+class LayoutVertical extends Elements {
+    constructor(children, attr = null) {
+        super(children)
+        this.elem = this.initEl("div", children, attr)
+        this.elem.classList.add('elements_layout_flex_vertical')
+    }
+}
+
+class LayoutHorizontal extends Elements {
+    constructor(children, attr = null) {
+        super(children)
+        this.elem = this.initEl("div", children, attr)
+        this.elem.classList.add('elements_layout_flex_horizontal')
     }
 }
 

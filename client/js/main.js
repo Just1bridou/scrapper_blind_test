@@ -14,10 +14,28 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Game.start()
 
+        Game.on("skipMusic", data => {
+            Player.stop()
+            console.log(data)
+
+            let content = _("div")
+            _("h3", content, data.artist + " - " + data.name)
+            _("button", content, "report")
+
+            console.log(data.closeAfter)
+
+            Modale.newModale({
+                title: "La musique etait : ",
+                description: content,
+                closeButton: false,
+                closeAfter: data.closeAfter
+            })
+        })
+
         Game.on('getSong', url => {
             let id = url.split("=")[1]
             
-            Player.stop()
+            // Player.stop()
             Player.load(id)
             Player.pause()
         })
@@ -37,10 +55,6 @@ document.addEventListener('DOMContentLoaded', () => {
         })
     })
 })
-
-function initialize() {
-
-}
 
 function createLoader() {
     let content = _('div', document.body, null, null, "loaderModale")

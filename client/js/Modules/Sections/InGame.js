@@ -21,13 +21,31 @@ class SectionInGame {
                 let pListContainer = _('div', pList, null, null, "ig_pList_container")
 
             let buttonBar = _('div', lPanel, null, null, "ig_buttons_bar")
-                _('button', buttonBar, "A", null, "ig_buttons")
+                
+            /*_('button', buttonBar, "A", null, "ig_buttons")
                 _('button', buttonBar, "B", null, "ig_buttons")
-                _('button', buttonBar, "C", null, "ig_buttons")
-               let next = _('button', buttonBar, "D", null, "ig_buttons")
-               next.addEventListener("click", () => {
-                   this.game.emit("skipMusic")
-               })
+                _('button', buttonBar, "C", null, "ig_buttons")*/
+
+                let slider = _('input', buttonBar, null, null, "sound_slider")
+                slider.type = "range"
+                slider.min = 0
+                slider.max = 100
+                slider.step = 1
+                slider.value = 50
+
+                slider.addEventListener('change', () => {
+                    this.game.emit("changeSoundPlayer", slider.value)
+                })
+
+                let skip = _('button', buttonBar, "S", null, "ig_buttons")
+                skip.addEventListener("click", () => {
+                    this.game.emit("skipMusic")
+                    skip.disabled = true
+                })
+
+                this.game.on("getSong", data => {
+                    skip.disabled = false
+                })
 
         // Right Panel
         let rPanel = _('section', section, null, null, "ig_rPanel")
@@ -108,14 +126,13 @@ class SectionInGame {
             section.playersList.innerHTML = ""
 
             for(let player of playerList) {
-                console.log("----")
-                console.log(player.name)
-                console.log(player.score)
                 let playerLi = _('div', section.playersList)
+                if(player.skip)
+                    playerLi.classList.add('bg_skip')
                 _('span', playerLi, player.name, null, "plName")
                 let ptnsDiv = _('span', playerLi, null, null, "plScore")
                     _('span', ptnsDiv, player.score + "", null, "greenColor")
-                    _('span', ptnsDiv, " ptn")
+                    _('span', ptnsDiv, " pts")
                 playerLi.classList.add('ig_playerCase')
             }
         }

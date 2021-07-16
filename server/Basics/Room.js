@@ -46,6 +46,10 @@ module.exports = class Room {
     setRandomMusic() {
         let randomMusic = this.playlist.songs[this.getRandomMusicId()]
         if(randomMusic) {
+
+            randomMusic.artist = randomMusic.artist.replace('’', '\'')
+            randomMusic.name = randomMusic.name.replace('’', '\'')
+
             this.liveMusic.live.artist = {name: randomMusic.artist, find: false}
             this.liveMusic.live.music = {name: randomMusic.name, find: false}
             this.liveMusic.live.fullMusic = randomMusic
@@ -112,6 +116,26 @@ module.exports = class Room {
         for(let player of this.playersList) {
             this.socketsList[player.uuid].emit(name, data)
         }
+    }
+
+    skipMusic() {
+        let count = this.playersList.length
+        let skip = 0
+        for(let player of this.playersList) {
+            if(player.skip)
+                skip++
+        }
+
+        let ratio = skip / count
+
+        if(ratio >= 0.75) {
+            for(let player of this.playersList) {
+                player.skip = false
+            }
+            return true
+        }
+
+        return false
     }
 }
   

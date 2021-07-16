@@ -27,10 +27,24 @@ class ModaleManager {
                 this.tearDown()
             })
         }
+
+        if(params.closeAfter) {
+            setTimeout(() => {
+                modaleContent.classList.remove('modale_up')
+                setTimeout(() => {
+                    this.tearDown()
+                }, 500)
+            }, params.closeAfter) 
+        }
+
+        setTimeout(() => {
+            modaleContent.classList.add('modale_up')
+        }, 50)
     }
 
     tearDown() {
-        if(this.modale)
+        if(this.modale) {
             this.modale.remove()
+        }
     }
 }

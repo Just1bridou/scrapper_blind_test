@@ -9,6 +9,7 @@ module.exports = class Player {
         this.admin = admin
         this.ready = false
         this.score = 0
+        this.skip = false
     }
 
     setReady() {

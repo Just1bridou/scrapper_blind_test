@@ -33,6 +33,7 @@
     display: flex;
     justify-content: space-evenly;
     margin-top: 10px;
+    margin-bottom: 5px;
 }
 
 .ig_buttons_bar button {
@@ -43,6 +44,8 @@
     
     min-height: 8vh;
     min-width: 8vh;
+
+    width: auto;
 }
 
 /* R Panel */
@@ -145,7 +148,7 @@
 
 input.ig_repInput {
     border-radius: 30px;
-    font-size: 40px;
+    font-size: 30px;
     text-indent: 30px;
     padding: 10px;
     flex: 1;
@@ -161,6 +164,7 @@ button.ig_repButton {
     padding: 5;
     padding: 10px 30px;
     border: none;
+    width: auto;
 }
 
 #inGame button {
@@ -249,4 +253,8 @@ button.ig_repButton {
 
 .chatColor {
     color: #dbef50;
+}
+
+.bg_skip {
+    background-color: #160024;
 }
