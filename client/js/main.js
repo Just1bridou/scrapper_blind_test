@@ -16,17 +16,21 @@ document.addEventListener('DOMContentLoaded', () => {
 
         Game.on("skipMusic", data => {
             Player.stop()
-            console.log(data)
 
-            let content = _("div")
-            _("h3", content, data.artist + " - " + data.name)
-            _("button", content, "report")
+            let content = new LayoutVertical(
+                [
+                    new Text(data.artist + " - " + data.name),
+                    new Button("Report")
+                ]
+            )
 
-            console.log(data.closeAfter)
+            content.Button.onClick(() => {
+                Game.emit("reportMusic", data)
+            })
 
             Modale.newModale({
                 title: "La musique etait : ",
-                description: content,
+                description: content.elem,
                 closeButton: false,
                 closeAfter: data.closeAfter
             })

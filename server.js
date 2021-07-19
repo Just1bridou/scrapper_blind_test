@@ -18,6 +18,7 @@ const Player = require("./server/Basics/Player")
 // Get Modules
 const pptFct = require('./server/pptFct')
 const Playlist = require('./server/Modules/Playlist');
+const Reports = require('./server/Modules/Report');
 // const { Client } = require('socket.io/dist/client');
 // const { inherits } = require('util');
 
@@ -30,9 +31,13 @@ app.get("/", (req, res) => {
     res.sendFile(__dirname + "/client/pages/index.html")
 })
 
-app.get('/r/:code', function (req, res) {
+app.get('/r/:code', (req, res) => {
   res.sendFile(__dirname + "/client/pages/index.html")
 });
+
+app.get('/reports', (req, res) => {
+  res.sendFile(__dirname + "/client/pages/reports.html")
+})
 
 var serverRooms = []
 
@@ -175,6 +180,7 @@ io.on("connect", (socket) => {
     Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
 
     if(Client.room.skipMusic()) {
+      Client.room.resetSkipVote()
       Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
       skipMusic()
     }
@@ -189,12 +195,19 @@ io.on("connect", (socket) => {
     cb(Client.player.admin)
   })
 
-  Client.on("buffering", cb => {
+  Client.on("BUFFERING", cb => {
     Client.room.readyBuffer(Client.player.uuid)
     if(Client.room.checkAllBuffer()) {
       Client.room.playersEvent("playerPlay")
     }
   })
+
+  // Client.on("ENDED", cb => {
+  //   Client.room.endMusicPlayer(Client.player.uuid)
+  //   if(Client.room.checkAllPlayerEnd()) {
+  //     skipMusic()
+  //   }
+  // })
 
   Client.on("guessing", str => {
    // Client.room.liveMusic.chat.push({user: Client.player.name, msg: str})
@@ -206,10 +219,35 @@ io.on("connect", (socket) => {
       Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
       Client.room.playersEvent("guessing", data)
       if(Client.room.allIsFind()) {
+        Client.room.resetSkipVote()
+        Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
         nextMusic()
       }
     })
   })
+
+  Client.on("reportMusic", data => {
+    Reports.newReport(data, () => {
+      console.log("new report")
+    })
+  })
+
+  socket.on("getAllReports", cb => {
+    Reports.getAllReports(100, reports => {
+      cb(reports)
+    })
+  })
+
+  Client.on("disconnect", () => {
+    if(!Client.disconnect) {
+      if(Client.room) {
+        Client.disconnect = true
+        Client.room.disconnect(Client.player)
+        Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
+      }
+    }
+  })
+
 
   function skipMusic() {
 

@@ -46,7 +46,7 @@ input[type=text] {
     border-radius: 30px;
     padding: 15px;
     border: none;
-    text-indent: 30px;
+    /* text-indent: 30px; */
     margin: 5px auto 5px auto;
 }
 
@@ -78,3 +78,39 @@ button:disabled:hover {
     cursor: pointer !important;
     filter: brightness(100%) !important;
 }
+
+.text {
+    font-size: 25px;
+    color: white;
+}
+
+/* Flex */
+.flex_1 {flex: 1;}
+.flex_2 {flex: 2;}
+.flex_3 {flex: 3;}
+.flex_4 {flex: 4;}
+.flex_5 {flex: 5;}
+.flex_6 {flex: 6;}
+.flex_7 {flex: 7;}
+.flex_8 {flex: 8;}
+.flex_9 {flex: 9;}
+.flex_10 {flex: 10;}
+
+/* Border Radius */
+.noRounded {
+    border-radius: 5px !important;
+}
+
+/* Margin */
+.m2 {margin: 2px !important;}
+
+/* Font Size */
+.fs15 {font-size: 15px !important;}
+.fs20 {font-size: 20px !important;}
+.fs25 {font-size: 25px !important;}
+.fs30 {font-size: 30px !important;}
+.fs35 {font-size: 35px !important;}
+.fs40 {font-size: 40px !important;}
+
+/* Text Indent */
+.ti {text-indent: 30px;}

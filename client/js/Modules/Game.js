@@ -50,13 +50,13 @@ class GameManager {
     }
 
     emit(name, data = null) {
-        console.log("Emit: ", name)
+        // console.log("Emit: ", name)
         this.socket.emit(name, data)
     }
 
     on(name, cb) {
         this.socket.on(name, res => {
-            console.log("On: ", name)
+            // console.log("On: ", name)
             cb(res)
         })
     } 

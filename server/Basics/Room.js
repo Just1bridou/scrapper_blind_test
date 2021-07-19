@@ -129,13 +129,28 @@ module.exports = class Room {
         let ratio = skip / count
 
         if(ratio >= 0.75) {
-            for(let player of this.playersList) {
-                player.skip = false
-            }
             return true
         }
 
         return false
+    }
+
+    resetSkipVote() {
+        for(let player of this.playersList) {
+            player.skip = false
+        }
+    }
+
+    disconnect(player) {
+        for(let i = 0; i < this.playersList.length; i++) {
+            if(player == this.playersList[i]) {
+                this.playersList.splice(i, 1);
+                this.socketsList.splice(i, 1);
+                if(this.liveMusic.buffer.length > 0) {
+                    this.liveMusic.buffer.splice(i, 1);
+                }
+            }
+        }
     }
 }
   

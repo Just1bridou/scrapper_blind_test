@@ -25,9 +25,7 @@ class YTPlayer {
     } 
 
     onPlayerStateChange(event) {
-        if(event.data == YT.PlayerState.BUFFERING) {
-            this.game.emit("buffering")
-        }
+        this.game.emit(event.data)
     }
 
     initialize() {

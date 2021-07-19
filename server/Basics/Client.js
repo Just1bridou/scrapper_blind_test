@@ -2,6 +2,7 @@
 
 module.exports = class Client {
     constructor(socket) {
+        this.disconnect = false
         this.room = null
         this.player = null
         this.socket = socket

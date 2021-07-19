@@ -57,10 +57,21 @@ class Elements {
             if(this.attrList[key] && this.attrList[key][value]) {
                 elem.classList.add(this.attrList[key][value])
             } else {
-                if(key == "class") {
-                    elem.classList.add(value)
-                } else {
-                    elem.setAttribute(key, value)
+                switch(key) {
+                    case "class":
+                        let splitClass = value.split(' ');
+                        if(splitClass.length > 1) {
+                            for(let c of splitClass) {
+                                elem.classList.add(c)
+                            }
+                        } else {
+                            elem.classList.add(value)
+                        }
+                        break;
+
+                    default:
+                        elem.setAttribute(key, value)
+                        break;
                 }
             }
         }
@@ -156,6 +167,10 @@ class Button extends Elements {
         super()
         this.elem = this.initText("button", text, attr)
     }
+
+    onClick(fct) {
+        this.elem.addEventListener('click', fct)
+    }
 }
 
 class Title extends Elements {
@@ -163,5 +178,13 @@ class Title extends Elements {
         super()
         this.elem = this.initText("h1", text, attr)
         this.elem.classList.add('title')
+    }
+}
+
+class Text extends Elements {
+    constructor(text, attr = null) {
+        super()
+        this.elem = this.initText("span", text, attr)
+        this.elem.classList.add('text')
     }
 }
