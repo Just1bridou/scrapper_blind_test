@@ -1,11 +1,11 @@
-class SectionLogin {
+class SectionJoin {
     constructor(game) {
         this.game = game
-        this.sectionObj = this.createLogin()
+        this.sectionObj = this.createJoin()
         this.section = this.sectionObj.elem
     }
 
-    createLogin() {
+    createJoin() {
 
         let section = new Section(
             new Center(
@@ -14,12 +14,18 @@ class SectionLogin {
                         new Title(this.game.name),
                         new Input({
                             "placeholder": "Pseudo ...",
-                            "id": "login_pseudo",
                             "type": "text"
                         }),
-                        new Button("Creer une partie", {
-                            "id": "createRoom"
-                        })
+                        new Title("Choix du mode", {
+                            "class": "title5 mt60"
+                        }),
+                        new LayoutHorizontal(
+                            [
+                                new Button("Distance"),
+                                new Button("Local")
+                            ]
+                        ),
+                        new Button("Rejoindre")
                     ]
                 ), true, true, {
                     "class": "w50"
@@ -38,7 +44,7 @@ class SectionLogin {
     }
 
     /**
-     * Init login page
+     * Init join page
      */
     init() {
 
@@ -48,23 +54,26 @@ class SectionLogin {
         input.addEventListener('keyup', (event) => {
             if(input.value != "") {
                 button.disabled = false;
+            } else {
+                button.disabled = true;
+            }
+        })
+
+        input.addEventListener('keyup', (event) => {
+            if(input.value != "") {
+                button.disabled = false;
                 
                 if (event.keyCode === 13 ) {
-                    this.game.emit("createRoom", { pseudo : input.value})
+                    this.game.emit("newPlayer", {"pseudo": input.value, "code": this.game.code})
                 }
 
             } else {
                 button.disabled = true;
             }
         })
-    
-        button.addEventListener('click', () => {
-            this.game.emit("createRoom", { pseudo : input.value})
-        })
 
-        this.game.on('roomCreated', (data) => {
-            this.game.room = data.room
-            this.game.emit("getData", null)
+        button.addEventListener('click', () => {
+            this.game.emit("newPlayer", {"pseudo": input.value, "code": this.game.code})
         })
     }
 }

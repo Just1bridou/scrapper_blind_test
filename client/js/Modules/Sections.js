@@ -7,6 +7,7 @@ class SectionsManager {
         this.allPlayersList = []
 
         this.sections["login"] = new SectionLogin(game)
+        this.sections["join"] = new SectionJoin(game)
         this.sections["waitingRoom"] = new SectionWR(game, this)
         this.sections["inGame"] = new SectionInGame(game, this)
 

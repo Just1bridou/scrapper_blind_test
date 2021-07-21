@@ -91,7 +91,8 @@ io.on("connect", (socket) => {
 
   Client.on("browserConnection", code => {
     if(roomExist(code)) {
-        Client.emit("newModaleConnection")
+       // Client.emit("newModaleConnection")
+        Client.showSection("join")
     } else {
         Client.showSection("login")
     }
