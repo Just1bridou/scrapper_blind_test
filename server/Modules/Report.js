@@ -2,6 +2,7 @@ module.exports = {
     connect: connect,
     getAllReports: getAllReports,
     newReport: newReport,
+    update: update,
 };
 
 var MongoClient = require("mongodb").MongoClient;
@@ -38,5 +39,29 @@ function getAllReports(limit, cb) {
             db.close();
             cb(result)
         });
+    });
+}
+
+function update(payload, cb) {
+    MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db(DB_NAME);
+
+        dbo.collection('playlist').findOneAndUpdate(
+            { id: payload.playlistId, "songs.id": payload.id },
+            { $set: { "songs.$.artist": payload.artist, "songs.$.name": payload.music } },
+            function(errUpdate, resultUpdate) {
+                if (errUpdate) throw err;
+    
+                dbo.collection("reports").deleteOne({playlistId: payload.playlistId, id: payload.id}, function(err, obj) {  
+                    if (err) throw err;  
+                    console.log(obj.result.n + " record(s) deleted");  
+                    db.close();  
+                    cb(resultUpdate)
+                }); 
+                
+            }
+        );
+
     });
 }

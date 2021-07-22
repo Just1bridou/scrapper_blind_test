@@ -2,7 +2,7 @@ class SectionWR {
     constructor(game, sub) {
         this.game = game
         this.sub = sub
-        this.section = this.createSection()
+        this.section = this.create()
         this.playersList = this.section.querySelector('.wr_plistContent')
         this.clickMe = this.section.querySelector('.wr_clickMe')
         this.link = this.section.querySelector('#wr_join_link')
@@ -17,7 +17,7 @@ class SectionWR {
         this.Playlist = new PlaylistManager(game)
     }
 
-    createSection() {
+    create() {
         // Section
         let section = _('section', document.body, null, "waitingRoom")
         section.classList.add('none')

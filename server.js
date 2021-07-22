@@ -199,6 +199,7 @@ io.on("connect", (socket) => {
   Client.on("BUFFERING", cb => {
     Client.room.readyBuffer(Client.player.uuid)
     if(Client.room.checkAllBuffer()) {
+      console.log("all buffer ready")
       Client.room.playersEvent("playerPlay")
     }
   })
@@ -233,6 +234,12 @@ io.on("connect", (socket) => {
     })
   })
 
+  Client.on("updateReport", data => {
+    Reports.update(data, () => {
+      console.log("update")
+    })
+  })
+
   socket.on("getAllReports", cb => {
     Reports.getAllReports(100, reports => {
       cb(reports)
@@ -253,6 +260,7 @@ io.on("connect", (socket) => {
   function skipMusic() {
 
     let data = Client.room.liveMusic.live.fullMusic
+    data.playlistId = Client.room.playlist.id
     data.closeAfter = 3000
 
     Client.room.playersEvent("skipMusic", data)

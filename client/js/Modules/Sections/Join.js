@@ -1,11 +1,11 @@
 class SectionJoin {
     constructor(game) {
         this.game = game
-        this.sectionObj = this.createJoin()
+        this.sectionObj = this.create()
         this.section = this.sectionObj.elem
     }
 
-    createJoin() {
+    create() {
 
         let section = new Section(
             new Center(

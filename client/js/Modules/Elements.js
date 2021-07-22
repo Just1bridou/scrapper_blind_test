@@ -42,11 +42,23 @@ class Elements {
             if(Array.isArray(children)) {
                 for(let child of children) {
                     this[child.constructor.name] = child
+
+                    if(child.elem.id) {
+                        this[child.elem.id] = child
+                    }
                 }
             } else {
                 this[children.constructor.name] = children
+
+                if(children.elem.id) {
+                    this[children.elem.id] = child
+                }
             }
         }
+    }
+
+    remove() {
+        this.elem.remove()
     }
 
     setAttributes(elem, attr) {

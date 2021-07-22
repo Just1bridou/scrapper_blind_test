@@ -1,11 +1,11 @@
 class SectionLogin {
     constructor(game) {
         this.game = game
-        this.sectionObj = this.createLogin()
+        this.sectionObj = this.create()
         this.section = this.sectionObj.elem
     }
 
-    createLogin() {
+    create() {
 
         let section = new Section(
             new Center(
