@@ -19,13 +19,15 @@ class SectionJoin {
                         new Title("Choix du mode", {
                             "class": "title5 mt60"
                         }),
-                        new LayoutHorizontal(
+                        new MultipleChoice(
                             [
-                                new Button("Distance"),
-                                new Button("Local")
+                                new Choice("Distance", "distance"),
+                                new Choice("Local", "local"),
                             ]
                         ),
-                        new Button("Rejoindre")
+                        new Button("Rejoindre", {
+                            "class": "mt60"
+                        })
                     ]
                 ), true, true, {
                     "class": "w50"
@@ -47,11 +49,17 @@ class SectionJoin {
      * Init join page
      */
     init() {
+        var section = this.sectionObj
 
-        var input = this.sectionObj.Center.LayoutVertical.Input.elem
-        var button = this.sectionObj.Center.LayoutVertical.Button.elem
+        var inputObj = section.Center.LayoutVertical.Input
+        var input = section.Center.LayoutVertical.Input.elem
 
-        input.addEventListener('keyup', (event) => {
+        var buttonObj = section.Center.LayoutVertical.Button
+        var button = section.Center.LayoutVertical.Button.elem
+
+        button.disabled = true
+
+        inputObj.onKeyup(() => {
             if(input.value != "") {
                 button.disabled = false;
             } else {
@@ -59,7 +67,7 @@ class SectionJoin {
             }
         })
 
-        input.addEventListener('keyup', (event) => {
+        inputObj.onKeyup((event) => {
             if(input.value != "") {
                 button.disabled = false;
                 
@@ -72,8 +80,9 @@ class SectionJoin {
             }
         })
 
-        button.addEventListener('click', () => {
-            this.game.emit("newPlayer", {"pseudo": input.value, "code": this.game.code})
+        buttonObj.onClick(() => {
+            let choice = section.Center.LayoutVertical.MultipleChoice.selected
+            this.game.emit("newPlayer", {"pseudo": input.value, "code": this.game.code, "mode": choice})
         })
     }
 }

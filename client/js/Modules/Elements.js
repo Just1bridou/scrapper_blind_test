@@ -172,6 +172,10 @@ class Input extends Elements {
         super()
         this.elem = this.initEl("input", null, attr)
     }
+
+    onKeyup(fct) {
+        this.elem.addEventListener('keyup', fct)
+    }
 }
 
 class Button extends Elements {
@@ -184,6 +188,42 @@ class Button extends Elements {
         this.elem.addEventListener('click', fct)
     }
 }
+
+class MultipleChoice extends Elements {
+    constructor(children, attr = null) {
+        super()
+        this.elem = this.initEl("div", children, attr)
+        this.elem.classList.add('multipleChoice')
+        this.children = children
+        this.initButtons()
+    }
+
+    initButtons() {
+        this.children[0].elem.disabled = true
+        this.selected = this.children[0].value
+
+        for(let choice of this.children) {
+            choice.elem.addEventListener('click', () => {
+                for(let c of this.children) {
+                    c.elem.disabled = false
+                }
+                choice.elem.disabled = true
+                this.selected = choice.value
+            })
+        }
+    }
+}
+
+class Choice extends Elements {
+    constructor(text, value, attr = null) {
+        super()
+        this.value = value
+        this.elem = this.initText("button", text, attr)
+        this.elem.classList.add('choice')
+    }
+}
+
+// Text
 
 class Title extends Elements {
     constructor(text, attr = null) {

@@ -84,8 +84,7 @@ io.on("connect", (socket) => {
 
     Client.emit("roomCreated", params)
     Client.emit("saveUUID", player)
-    Client.emit("removeModal")
-    Client.showSection("waitingRoom")
+    Client.goToSection("join", "waitingRoom")
     Client.room.playersEvent("refreshPlayersList", Client.room.playersList)
   })
 

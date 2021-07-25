@@ -84,6 +84,20 @@ button:disabled:hover {
     color: white;
 }
 
+.multipleChoice {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    width: 100%;
+}
+
+.choice {
+    width: auto !important;
+    margin: 5px !important;
+    flex: 1 !important;
+}
+
 /* Flex */
 .flex_1 {flex: 1;}
 .flex_2 {flex: 2;}
@@ -138,3 +152,4 @@ button:disabled:hover {
 .w50 {width: 50%;}
 .w75 {width: 75%;}
 .w100 {width: 100%;}
+
