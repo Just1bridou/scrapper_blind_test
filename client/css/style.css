@@ -1,11 +1,11 @@
 @font-face {
     font-family: "moon";
-    src: url("FONT/Moon light.otf")
+    src: url("FONT/Moon-Light.otf")
 }
 
 @font-face {
     font-family: "moon bold";
-    src: url("FONT/Moon Bold.otf")
+    src: url("FONT/Moon-Bold.otf")
 }
 
 * {
