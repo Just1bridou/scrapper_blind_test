@@ -44,6 +44,9 @@ h1.wr_title {
     height: 100%;
     width: 100%;
     text-align: center;
+    overflow-y: scroll;
+    max-height: 70vh;
+    padding: 30px 0;
 }
 
 h2.wr_playlist_title {
@@ -69,7 +72,7 @@ input.wr_playlist_input {
 .wr_playlist_results div {
     font-size: 25px;
     color: white;
-    padding: 10px;
+    padding: 4px;
     background-color: #3F3248;
     border-radius: 22px;
     width: 75%;
@@ -78,6 +81,14 @@ input.wr_playlist_input {
     text-align: left;
     text-indent: 20px;
     transition: 0.1s all ease-in-out;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+.wr_playlist_results div img {
+    height: 70px;
+    border-radius: 18px;
 }
 
 .wr_playlist_results div span {
@@ -94,9 +105,9 @@ input.wr_playlist_input {
     margin: 10px;
     font-size: 20px;
     border-radius: 20px;
-    padding: 5;
     padding: 10px 30px;
     border: none;
+    width: auto;
 }
 
 .wr_playlist_results div:hover {

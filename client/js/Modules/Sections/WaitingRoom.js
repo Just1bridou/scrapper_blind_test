@@ -194,7 +194,16 @@ class SectionWR {
 
         } else {
             for(let playlist of data) {
-                let div = _('div', this.playlistsResults, playlist.name)
+
+                console.log(playlist)
+
+                let div = _('div', this.playlistsResults)
+
+                let img = _('img', div)
+                img.src = playlist.cover
+
+                _("h4", div, playlist.name)
+
                 _('span', div, " (" + playlist.songs.length + " songs)")
 
                 div.addEventListener('click', ()=>{

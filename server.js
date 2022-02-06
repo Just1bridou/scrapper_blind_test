@@ -68,6 +68,18 @@ io.on("connect", (socket) => {
     room.playersEvent("refreshPlayersList", room.playersList)
   })
 
+  Client.on("updateCover", data => {
+    Playlist.getAllPlaylists(1000, playlists => {
+      for(let playlist of playlists) {
+        pptFct.getAlbumCover(Playlist.getIdFromURL(playlist.url), (coverURL) => {
+          Playlist.updateImage(Playlist.getIdFromURL(playlist.url), coverURL, () => (
+            console.log("updated")
+          ))
+        })
+      }
+    })
+  })
+
   Client.on("newPlayer", data => {
     let room = getRoom(data.code)
     let player = new Player(data.pseudo)

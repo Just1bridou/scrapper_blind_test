@@ -5,6 +5,7 @@ module.exports = {
     getIdFromURL: getIdFromURL,
     getPlaylistByKeyWord: getPlaylistByKeyWord,
     insertPlaylist: insertPlaylist,
+    updateImage: updateImage,
 };
 
 var MongoClient = require("mongodb").MongoClient;
@@ -16,6 +17,24 @@ function connect() {
         if (err) return console.log(err)
         db = db.db(DB_NAME)
     })
+}
+
+function updateImage(id, coverURL, cb) {
+
+    MongoClient.connect(url, { useUnifiedTopology: true }, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db(DB_NAME);
+
+        dbo.collection('playlist').findOneAndUpdate(
+            { id: id },
+            { $set: { "cover": coverURL } },
+            function(errUpdate, resultUpdate) {
+                if (errUpdate) throw err;
+                cb(resultUpdate)
+            }
+        );
+
+    });
 }
 
 function insertPlaylist(playlist, cb) {
