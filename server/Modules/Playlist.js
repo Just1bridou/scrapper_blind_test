@@ -8,6 +8,9 @@ module.exports = {
     updateImage: updateImage,
 };
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 var MongoClient = require("mongodb").MongoClient;
 const url = process.env.DB_URL;
 DB_NAME = "blindtest"
