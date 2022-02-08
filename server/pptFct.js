@@ -2,6 +2,9 @@ const puppeteer = require('puppeteer');
 const youtube = require('./youtube');
 const axios = require('axios')
 
+const dotenv = require('dotenv');
+dotenv.config();
+
 var SpotifyWebApi = require('spotify-web-api-node');
 
 module.exports = {
@@ -16,8 +19,8 @@ async function getMusics(id, cb) {
   results.musics = []
 
   var spotifyApi = new SpotifyWebApi({
-    clientId: '9b14eaa2219a48289e044d245b517492',
-    clientSecret: '783195aceb49407d9864f0ca7edd0c14'
+    clientId: process.env.SpotifyID,
+    clientSecret: process.env.SpotifySecret
   });
 
   spotifyApi.clientCredentialsGrant().then(
